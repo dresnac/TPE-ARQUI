@@ -83,33 +83,12 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-void drawAllChar(){
-	unsigned char ***font = getFont();
-	for(int i=0; i<128; i++){
-		drawchar(font[i],i*8,10);
-	}
-}
-
-void drawchar(char **c,int x, int y){
-	for(int i=0;i<8;i++){
-		for(int j=0;j<8;j++){
-			if(c[i][j]){
-				putPixel(0x00FFFFFF, j+x, i+y);
-			}
-		}
-	}
-}
-
-
-
-
-
 
 int main()
 {	
 	putPixel(0x00FF0000, 20, 20);
 
-	drawAllChar();
+	drawChar('A', 10, 10);
 
 	ncPrint("[Kernel Main]");
 	ncNewline();

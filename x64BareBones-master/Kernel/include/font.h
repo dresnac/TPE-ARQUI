@@ -3,6 +3,6 @@
 
 #include <stdio.h>
 
-unsigned char ***getFont();
+extern unsigned char font[256][8][8];
 
 #endif

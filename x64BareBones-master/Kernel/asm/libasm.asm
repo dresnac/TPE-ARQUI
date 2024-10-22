@@ -1,5 +1,5 @@
 GLOBAL cpuVendor
-
+GLOBAL getKeyPressed
 
 
 section .text
@@ -27,3 +27,14 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+
+getKeyPressed:
+    mov rax, 0
+.cicle: 
+    in al, 64h
+    and al, 0x01
+    je .cicle
+    in al, 60h
+
+    ret

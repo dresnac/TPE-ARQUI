@@ -3,6 +3,7 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include <videoDriver.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -10,6 +11,7 @@ extern uint8_t data;
 extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
+
 
 static const uint64_t PageSize = 0x1000;
 
@@ -80,8 +82,12 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
+
+
 int main()
 {	
+	putPixel(0x00FF0000, 20, 20);
+
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");

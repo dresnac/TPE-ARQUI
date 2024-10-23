@@ -24,7 +24,7 @@ static char getKeyPressedRec(int shiftOn){
     if(scancode == (int) SHIFT_RELEASED){ //si se suelta el shift, pido la siguiente tecla presionada en "minúscula"
         return getKeyPressedRec(0);
     }
-    if(scancode >= RELEASED_CODE){
+    if(scancode >= (int) RELEASED_CODE){
         return getKeyPressedRec(shiftOn); //si se devuelve un código de letra liberada, pido la siguiente tecla presionada
     }
     return getAscii(scancode, shiftOn);

@@ -29,7 +29,7 @@ cpuVendor:
 	ret
 
 
-getKeyPressed:
+getKey:
     mov rax, 0
 .cicle: 
     in al, 64h

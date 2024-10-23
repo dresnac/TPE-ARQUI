@@ -1,0 +1,100 @@
+//keyboardDriver.c
+#define SHIFT_PRESSED 0x2A  //42 en decimal
+#define SHIFT_RELEASED 0xAA  //170 en decimal
+#define RELEASED_CODE 0x80  //A partir de este código, se indican las teclas liberadas 
+
+static char getKeyPressedRec(int shiftOn);
+static char getAscii(int scancode, int shiftOn);
+
+/* Wrapper */
+char getKeyPressed(){
+    return getKeyPressedRec(0);
+}
+
+/* Devuelve el caracter presionado (no se ocupa de imprimir ni parecido)
+    Pensar si es mejor no hacerla recursiva */
+static char getKeyPressedRec(int shiftOn){
+
+    int scancode = getKey();
+
+    if(scancode == (int) SHIFT_PRESSED){  //si se presiona el shift, pido la siguiente tecla presionada pero en "mayúscula"
+        return getKeyPressed(1);
+    }
+    if(scancode == (int) SHIFT_RELEASED){ //si se suelta el shift, pido la siguiente tecla presionada en "minúscula"
+        return getKeyPressed(0);
+    }
+    if(scancode >= RELEASED_CODE){
+        return getKeyPressed(shiftOn); //si se devuelve un código de letra liberada, pido la siguiente tecla presionada
+    }
+    return getAscii(scancode, shiftOn);
+
+}
+
+static char getAscii(int scancode, int shiftOn){
+    /* Mapeo (Teclado de Mac) de scancode a caracteres en ascii.
+    El scancode es un código en hexa que devuelve el teclado según la tecla presionada/liberada.
+    Al soltar una tecla se devuelve su scancode inicial + 0x80.  */
+    unsigned char scancode_to_ascii[58][2] = 
+	{
+		{0, 0},
+		{27, 27},  //Escape
+		{'1', '!'},
+		{'2', '@'},
+		{'3', '#'},
+		{'4', '$'},
+		{'5', '%'},
+		{'6', '^'},
+		{'7', '&'},
+		{'8', '*'},
+		{'9', '('},
+		{'0', ')'},
+		{'-', '_'},
+		{'=', '+'},
+		{8, 8},  //Backspace
+		{9, 9},  //Horizontal tab
+		{'q', 'Q'},
+		{'w', 'W'},
+		{'e', 'E'},
+		{'r', 'R'},
+		{'t', 'T'},
+		{'y', 'Y'},
+		{'u', 'U'},
+		{'i', 'I'},
+		{'o', 'O'},
+		{'p', 'P'},
+		{'[', '{'},
+		{']', '}'},
+		{'\n', '\n'},  //Salto de línea
+		{0, 0},
+		{'a', 'A'},
+		{'s', 'S'},
+		{'d', 'D'},
+		{'f', 'F'},
+		{'g', 'G'},
+		{'h', 'H'},
+		{'j', 'J'},
+		{'k', 'K'},
+		{'l', 'L'},
+		{';', ':'},
+		{39, 34},  // ' y "
+		{'`', '~'},
+		{0, 0},
+		{'\\', '|'},
+		{'z', 'Z'},
+		{'x', 'X'},
+		{'c', 'C'},
+		{'v', 'V'},
+		{'b', 'B'},
+		{'n', 'N'},
+		{'m', 'M'},
+		{',', '<'},
+		{'.', '>'},
+		{'/', '?'},
+		{0, 0},
+		{0, 0},
+		{0, 0},
+		{' ', ' '},
+	};
+
+    return scancode_to_ascii[scancode][shiftOn];
+}

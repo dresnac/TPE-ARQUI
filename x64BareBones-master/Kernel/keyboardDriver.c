@@ -3,6 +3,7 @@
 #define SHIFT_RELEASED 0xAA  //170 en decimal
 #define RELEASED_CODE 0x80  //A partir de este código, se indican las teclas liberadas 
 
+extern int getKey();
 static char getKeyPressedRec(int shiftOn);
 static char getAscii(int scancode, int shiftOn);
 
@@ -18,13 +19,13 @@ static char getKeyPressedRec(int shiftOn){
     int scancode = getKey();
 
     if(scancode == (int) SHIFT_PRESSED){  //si se presiona el shift, pido la siguiente tecla presionada pero en "mayúscula"
-        return getKeyPressed(1);
+        return getKeyPressedRec(1);
     }
     if(scancode == (int) SHIFT_RELEASED){ //si se suelta el shift, pido la siguiente tecla presionada en "minúscula"
-        return getKeyPressed(0);
+        return getKeyPressedRec(0);
     }
     if(scancode >= RELEASED_CODE){
-        return getKeyPressed(shiftOn); //si se devuelve un código de letra liberada, pido la siguiente tecla presionada
+        return getKeyPressedRec(shiftOn); //si se devuelve un código de letra liberada, pido la siguiente tecla presionada
     }
     return getAscii(scancode, shiftOn);
 

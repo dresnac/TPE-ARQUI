@@ -4,7 +4,7 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <videoDriver.h>
-#include <font.h>
+#include <keyboardDriver.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -87,8 +87,9 @@ void * initializeKernelBinary()
 int main()
 {	
 	putPixel(0x00FF0000, 20, 20);
-
-	drawChar('!', 10, 10);
+	
+	drawChar(getKeyPressed(), 10, 10);
+	
 
 	ncPrint("[Kernel Main]");
 	ncNewline();

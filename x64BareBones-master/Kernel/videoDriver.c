@@ -1,5 +1,6 @@
 #include <videoDriver.h>
 #include <font.h>
+#include <font8x16.h>
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -51,10 +52,21 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
 }
 
-void drawChar(char c,int x, int y){
-	for(int i=0;i<8;i++){
-		for(int j=0;j<8;j++){
-			if(font[4][i][j]){
+// void drawChar(char c,int x, int y){
+// 	for(int i=0;i<16;i++){
+// 		for(int j=0;j<8;j++){
+// 			if(font8x16[1][i][j]){
+// 				putPixel(0x00FFFFFF, j+x, i+y);
+// 			}
+// 		}
+// 	}
+// }
+
+void drawChar(char c, int x, int y){
+	unsigned char * bitMap = font8x16[c-32];
+	for(int i=0; i < 16; i++){
+		for(int j=0; j < 8; j++){
+			if(bitMap[i] & (1 << (7 - j))){
 				putPixel(0x00FFFFFF, j+x, i+y);
 			}
 		}

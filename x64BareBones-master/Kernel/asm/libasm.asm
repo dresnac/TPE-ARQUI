@@ -1,5 +1,5 @@
 GLOBAL cpuVendor
-GLOBAL getKeyPressed
+GLOBAL getKey
 
 
 section .text

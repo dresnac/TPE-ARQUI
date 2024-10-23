@@ -88,7 +88,7 @@ int main()
 {	
 	putPixel(0x00FF0000, 20, 20);
 
-	drawChar('A', 10, 10);
+	drawChar('!', 10, 10);
 
 	ncPrint("[Kernel Main]");
 	ncNewline();

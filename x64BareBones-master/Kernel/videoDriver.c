@@ -62,7 +62,9 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 // 	}
 // }
 
-void drawChar(char c, int x, int y){
+void drawChar(char c, int * cursor){
+	int x = cursor[0];
+	int y = cursor[1];
 	unsigned char * bitMap = font8x16[c-32];
 	for(int i=0; i < 16; i++){
 		for(int j=0; j < 8; j++){
@@ -71,13 +73,13 @@ void drawChar(char c, int x, int y){
 			}
 		}
 	}
+	cursor[0] += 8;
 }
 
 
 void print(const char *s, int *cursor){
 	while(*s != '\0'){
-		drawChar(*s, cursor[0], cursor[1]);
-		cursor[0]+=8;
+		drawChar(*s, cursor);
 		s++;
 	}
 }
@@ -88,6 +90,9 @@ void newline(int *cursor){
 }
 
 void delete(int *cursor){
+	if(cursor[0] <= 15*8){ //Para que no pise el prompt
+		return;
+	}
 	int x = cursor[0]-8;
 	int y = cursor[1];
 	for(int i=0; i < 16; i++){

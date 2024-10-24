@@ -6,6 +6,8 @@
 #include <videoDriver.h>
 #include <keyboardDriver.h>
 
+#define PROMPT_TEXT "User@Kernel:$> "
+
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -92,7 +94,7 @@ int main()
 	//por ahora lo unico que hace es escribir y borrar
 	int cursor[] ={0,0};
 	while(1){
-		print("User@Kernel:$~ ",cursor);
+		print(PROMPT_TEXT, cursor);
 		int *shiftFlag;
 		*shiftFlag = 0;
 		while(1){
@@ -102,20 +104,17 @@ int main()
 			{
 				delete(cursor);
 				newline(cursor);
-				print("User@Kernel:$~ ",cursor);
+				print(PROMPT_TEXT, cursor);
 			}
 			else if(c==8){
 				delete(cursor);		//borra la barra
 				delete(cursor);		//borra el señalador
-				drawChar('_',cursor[0],cursor[1]);
-				cursor[0]+=8;
+				drawChar('_',cursor);
 			}
 			else{
 				delete(cursor);
-				drawChar(c, cursor[0], cursor[1]);
-				cursor[0] += 8;
-				drawChar('_',cursor[0],cursor[1]);
-				cursor[0] += 8;
+				drawChar(c, cursor);
+				drawChar('_',cursor);
 			}
 			
 		}

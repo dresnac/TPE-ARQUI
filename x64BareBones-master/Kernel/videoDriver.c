@@ -1,5 +1,4 @@
 #include <videoDriver.h>
-#include <font.h>
 #include <font8x16.h>
 
 struct vbe_mode_info_structure {
@@ -85,7 +84,7 @@ void print(const char *s, int *cursor){
 }
 
 void newline(int *cursor){
-	cursor[1] += 16;
+	cursor[1] += SYMBOL_LENGTH;
 	cursor[0] = 0;
 }
 

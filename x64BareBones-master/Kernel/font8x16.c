@@ -1,6 +1,7 @@
+#define SYMBOL_LENGTH 16
+#define SYMBOL_WIDTH 8
 
-
-unsigned char font8x16[256][16] = {
+unsigned char font8x16[256][SYMBOL_LENGTH] = {
 
     // Carácter 32: Espacio ( )
     {

@@ -86,18 +86,36 @@ void * initializeKernelBinary()
 
 int main()
 {	
+
+	//hay que seguir esta logica pero probablemente del lado del userland
+	//eliminar los while(1)
+	//por ahora lo unico que hace es escribir y borrar
 	int cursor[] ={0,0};
 	while(1){
-		print("User@Kernel:$~",cursor);
+		print("User@Kernel:$~ ",cursor);
+
 		while(1){
 			char c = getKeyPressed();
 			if(c == '\n')
 			{
+				delete(cursor);
 				newline(cursor);
-				print("User@Kernel:$~",cursor);
+				print("User@Kernel:$~ ",cursor);
 			}
-		  	drawChar(c, cursor[0], cursor[1]);
-		  	cursor[0] += 8;
+			else if(c==8){
+				delete(cursor);		//borra la barra
+				delete(cursor);		//borra el palo
+				drawChar('_',cursor[0],cursor[1]);
+				cursor[0]+=8;
+			}
+			else{
+				delete(cursor);
+				drawChar(c, cursor[0], cursor[1]);
+				cursor[0] += 8;
+				drawChar('_',cursor[0],cursor[1]);
+				cursor[0] += 8;
+			}
+			
 		}
 	}
 

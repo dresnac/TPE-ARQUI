@@ -73,6 +73,7 @@ void drawChar(char c, int x, int y){
 	}
 }
 
+
 void print(const char *s, int *cursor){
 	while(*s != '\0'){
 		drawChar(*s, cursor[0], cursor[1]);
@@ -86,3 +87,13 @@ void newline(int *cursor){
 	cursor[0] = 0;
 }
 
+void delete(int *cursor){
+	int x = cursor[0]-8;
+	int y = cursor[1];
+	for(int i=0; i < 16; i++){
+		for(int j=0; j < 8; j++){
+			putPixel(0x00000000, j+x, i+y);
+		}
+	}
+	cursor[0]-=8;
+}

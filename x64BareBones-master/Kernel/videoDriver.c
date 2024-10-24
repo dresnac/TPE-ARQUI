@@ -73,4 +73,16 @@ void drawChar(char c, int x, int y){
 	}
 }
 
+void print(const char *s, int *cursor){
+	while(*s != '\0'){
+		drawChar(*s, cursor[0], cursor[1]);
+		cursor[0]+=8;
+		s++;
+	}
+}
+
+void newline(int *cursor){
+	cursor[1] += 16;
+	cursor[0] = 0;
+}
 

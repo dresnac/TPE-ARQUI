@@ -87,10 +87,14 @@ void * initializeKernelBinary()
 int main()
 {	
 	putPixel(0x00FF0000, 20, 20);
-	int cursor = 10;
+	int cursor[] = {0,0};
+	print("User@Kernel:$~",cursor);
+	newline(cursor);
+	print("User@Kernel:$~",cursor);
+
 	while(1){
-		drawChar(getKeyPressed(), cursor, 10);
-		cursor += 8;
+		drawChar(getKeyPressed(), cursor[0], cursor[1]);
+		cursor[0] += 8;
 	}
 
 	ncPrint("[Kernel Main]");

@@ -7,6 +7,7 @@ extern int getKey();
 static char getKeyPressedRec(int shiftOn);
 static char getAscii(int scancode, int shiftOn);
 
+
 /* Wrapper */
 char getKeyPressed(){
     return getKeyPressedRec(0);

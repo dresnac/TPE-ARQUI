@@ -86,34 +86,30 @@ void * initializeKernelBinary()
 
 int main()
 {	
-	putPixel(0x00FF0000, 20, 20);
-	int cursor[] = {0,0};
-	print("User@Kernel:$~",cursor);
-	newline(cursor);
-	print("User@Kernel:$~",cursor);
-
+	int cursor[] ={0,0};
 	while(1){
-		drawChar(getKeyPressed(), cursor[0], cursor[1]);
-		cursor[0] += 8;
+		print("User@Kernel:$~",cursor);
+		while(1){
+			char c = getKeyPressed();
+			if(c == '\n')
+			{
+				newline(cursor);
+				print("User@Kernel:$~",cursor);
+			}
+		  	drawChar(c, cursor[0], cursor[1]);
+		  	cursor[0] += 8;
+		}
 	}
 
-	ncPrint("[Kernel Main]");
-	ncNewline();
-	ncPrint("  Sample code module at 0x");
-	ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
-	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
-	ncNewline();
+	//putPixel(0x00FF0000, 20, 20);
+	//int cursor[] = {0,0};
+	//print("User@Kernel:$~",cursor);
+	//newline(cursor);
+	//print("User@Kernel:$~",cursor);
 
-	ncPrint("  Sample data module at 0x");
-	ncPrintHex((uint64_t)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("  Sample data module contents: ");
-	ncPrint((char*)sampleDataModuleAddress);
-	ncNewline();
-
-	ncPrint("[Finished]");
+	//while(1){
+	//	  drawChar(getKeyPressed(), cursor[0], cursor[1]);
+	//	  cursor[0] += 8;
+	//}
 	return 0;
 }

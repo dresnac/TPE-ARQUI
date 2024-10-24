@@ -5,6 +5,7 @@
 #include <naiveConsole.h>
 #include <videoDriver.h>
 #include <keyboardDriver.h>
+#include <idtLoader.h>
 
 #define PROMPT_TEXT "User@Kernel:$> "
 
@@ -88,7 +89,7 @@ void * initializeKernelBinary()
 
 int main()
 {	
-
+	load_idt();
 	//hay que seguir esta logica pero probablemente del lado del userland
 	//eliminar los while(1)
 	//por ahora lo unico que hace es escribir y borrar

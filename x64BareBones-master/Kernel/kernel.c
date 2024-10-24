@@ -93,9 +93,11 @@ int main()
 	int cursor[] ={0,0};
 	while(1){
 		print("User@Kernel:$~ ",cursor);
-
+		int *shiftFlag;
+		*shiftFlag = 0;
 		while(1){
-			char c = getKeyPressed();
+			char c = getKeyPressed(shiftFlag);
+
 			if(c == '\n')
 			{
 				delete(cursor);
@@ -104,7 +106,7 @@ int main()
 			}
 			else if(c==8){
 				delete(cursor);		//borra la barra
-				delete(cursor);		//borra el palo
+				delete(cursor);		//borra el señalador
 				drawChar('_',cursor[0],cursor[1]);
 				cursor[0]+=8;
 			}

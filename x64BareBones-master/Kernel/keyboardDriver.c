@@ -4,31 +4,33 @@
 #define RELEASED_CODE 0x80  //A partir de este código, se indican las teclas liberadas 
 
 extern int getKey();
-static char getKeyPressedRec(int shiftOn);
+static char getKeyPressedRec(int *shiftFlag);
 static char getAscii(int scancode, int shiftOn);
 
 
 /* Wrapper */
-char getKeyPressed(){
-    return getKeyPressedRec(0);
+char getKeyPressed(int *shiftFlag){
+    return getKeyPressedRec(shiftFlag);
 }
 
 /* Devuelve el caracter presionado (no se ocupa de imprimir ni parecido)
     Pensar si es mejor no hacerla recursiva */
-static char getKeyPressedRec(int shiftOn){
+static char getKeyPressedRec(int *shiftFlag){
 
     int scancode = getKey();
 
     if(scancode == (int) SHIFT_PRESSED){  //si se presiona el shift, pido la siguiente tecla presionada pero en "mayúscula"
-        return getKeyPressedRec(1);
+        *shiftFlag = 1;
+		return getKeyPressedRec(shiftFlag);
     }
     if(scancode == (int) SHIFT_RELEASED){ //si se suelta el shift, pido la siguiente tecla presionada en "minúscula"
-        return getKeyPressedRec(0);
+        *shiftFlag = 0;
+		return getKeyPressedRec(shiftFlag);
     }
     if(scancode >= (int) RELEASED_CODE){
-        return getKeyPressedRec(shiftOn); //si se devuelve un código de letra liberada, pido la siguiente tecla presionada
+        return getKeyPressedRec(shiftFlag); //si se devuelve un código de letra liberada, pido la siguiente tecla presionada
     }
-    return getAscii(scancode, shiftOn);
+    return getAscii(scancode, *shiftFlag);
 
 }
 

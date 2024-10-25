@@ -138,6 +138,23 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
+_irq80Handler:
+	push rbx
+	push rdi
+	push rsi
+	mov rdi, rax
+	mov rsi, rbx
+	push rdx     ;swap entre rcx y rdx
+	mov rdx, rcx ;
+	pop rcx      ;
+
+	call syscallDispatcher
+
+	pop rsi
+	pop rdi
+	pop rbx
+
+	iretq
 
 ;Zero Division Exception
 _exception0Handler:

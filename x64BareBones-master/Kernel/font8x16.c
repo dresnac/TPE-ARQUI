@@ -1,5 +1,4 @@
-#define SYMBOL_LENGTH 16
-#define SYMBOL_WIDTH 8
+#include <font8x16.h>
 
 unsigned char font8x16[256][SYMBOL_LENGTH] = {
 

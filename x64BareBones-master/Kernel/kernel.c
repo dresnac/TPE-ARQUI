@@ -93,33 +93,33 @@ int main()
 	//hay que seguir esta logica pero probablemente del lado del userland
 	//eliminar los while(1)
 	//por ahora lo unico que hace es escribir y borrar
-	int cursor[] ={0,0};
-	while(1){
-		print(PROMPT_TEXT, cursor);
-		int *shiftFlag;
-		*shiftFlag = 0;
-		while(1){
-			char c = getKeyPressed(shiftFlag);
+	// int cursor[] ={0,0};
+	// while(1){
+	// 	print(PROMPT_TEXT, cursor);
+	// 	int *shiftFlag;
+	// 	*shiftFlag = 0;
+	// 	while(1){
+	// 		char c = getKeyPressed(shiftFlag);
 
-			if(c == '\n')
-			{
-				delete(cursor);
-				newline(cursor);
-				print(PROMPT_TEXT, cursor);
-			}
-			else if(c==8){
-				delete(cursor);		//borra la barra
-				delete(cursor);		//borra el señalador
-				drawChar('_',cursor);
-			}
-			else{
-				delete(cursor);
-				drawChar(c, cursor);
-				drawChar('_',cursor);
-			}
+	// 		if(c == '\n')
+	// 		{
+	// 			delete(cursor);
+	// 			newline(cursor);
+	// 			print(PROMPT_TEXT, cursor);
+	// 		}
+	// 		else if(c==8){
+	// 			delete(cursor);		//borra la barra
+	// 			delete(cursor);		//borra el señalador
+	// 			drawChar('_',cursor);
+	// 		}
+	// 		else{
+	// 			delete(cursor);
+	// 			drawChar(c, cursor);
+	// 			drawChar('_',cursor);
+	// 		}
 			
-		}
-	}
+	// 	}
+	// }
 
 	//putPixel(0x00FF0000, 20, 20);
 	//int cursor[] = {0,0};

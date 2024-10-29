@@ -13,10 +13,13 @@ GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
 
+GLOBAL _irq80Handler
+
 GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
+EXTERN syscallDispatcher
 
 SECTION .text
 
@@ -144,9 +147,6 @@ _irq80Handler:
 	push rsi
 	mov rdi, rax
 	mov rsi, rbx
-	push rdx     ;swap entre rcx y rdx
-	mov rdx, rcx ;
-	pop rcx      ;
 
 	call syscallDispatcher
 

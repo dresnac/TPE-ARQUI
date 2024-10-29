@@ -48,7 +48,7 @@ pruebaSysDispatcher:
 	push rdx
 	push rcx
 
-	mov rdi, 1
+	mov rdi, 4
 	mov rsi, 1
 	mov rdx, buffer
 	mov rcx, 5

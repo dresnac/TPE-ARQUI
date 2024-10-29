@@ -17,6 +17,7 @@ GLOBAL _irq80Handler
 
 GLOBAL _exception0Handler
 
+EXTERN should_take_reg_shot
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
@@ -123,7 +124,53 @@ _irq00Handler:
 
 ;Keyboard
 _irq01Handler:
-	irqHandlerMaster 1
+	;irqHandlerMaster 1
+	pushState
+
+    mov rdi, 1
+    call irqDispatcher
+
+    call should_take_reg_shot
+    cmp rax, 1
+
+    jne .keyboard_end
+    popState
+    pushState
+    mov [regs_shot + 8 * 0 ], rax
+    mov [regs_shot + 8 * 1 ], rbx
+    mov [regs_shot + 8 * 2 ], rcx
+    mov [regs_shot + 8 * 3 ], rdx
+    mov [regs_shot + 8 * 4 ], rsi
+    mov [regs_shot + 8 * 5 ], rdi
+    mov [regs_shot + 8 * 6 ], rbp
+    mov rax, [rsp + 18 * 8]
+
+    ;Descomentar para ver que hay en la dir apuntada por RSP:
+    ;mov rbx, [rsp + 18* 8]
+    ;mov rax, [rbx]
+
+    mov [regs_shot + 8 * 7 ], rax            ;rsp
+    mov [regs_shot + 8 * 8 ], r8
+    mov [regs_shot + 8 * 9 ], r9
+    mov [regs_shot + 8 * 10], r10
+    mov [regs_shot + 8 * 11], r11
+    mov [regs_shot + 8 * 12], r12
+    mov [regs_shot + 8 * 13], r13
+    mov [regs_shot + 8 * 14], r14
+    mov [regs_shot + 8 * 15], r15
+    mov rax, [rsp+158]    ; posicion en el stack de la dir. de retorno (valor del rip previo al llamado de la interrupcion)
+    mov [regs_shot + 8 * 16], rax
+
+    mov rax, 1
+    mov [regs_shot_available], rax          ; tenemos un snapshot de los registros
+
+.keyboard_end:
+    ; signal pic EOI (End of Interrupt)
+    mov al, 20h
+    out 20h, al
+
+    popState
+    iretq
 
 ;Cascade pic never called
 _irq02Handler:
@@ -180,7 +227,12 @@ _irq80Handler:
 	pop rsi
 	pop rdi
 
-	ret
+	;push rax
+	;mov al, 20h
+	;out 20h, al
+	;pop rax
+
+	iretq
 
 ;Zero Division Exception
 _exception0Handler:
@@ -197,5 +249,9 @@ SECTION .bss
 	aux resq 1
 
 section .rodata
+	buffer db "Jorge"
+section .data
+ 	regs_shot dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 17 zeros
+	regs_shot_available dq 0 ; flag para saber si hay un regs_shot disponible
+    exception_regs dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 18 zeros
 
-buffer db "Jorge"

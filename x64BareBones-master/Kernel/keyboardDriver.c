@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 //keyboardDriver.c
 #define SHIFT_PRESSED 0x2A  //42 en decimal
 #define SHIFT_RELEASED 0xAA  //170 en decimal
@@ -101,4 +103,9 @@ static char getAscii(int scancode, int shiftOn){
 	};
 
     return scancode_to_ascii[scancode][shiftOn];
+}
+
+//lulo
+uint8_t should_take_reg_shot() {
+	return 0;
 }

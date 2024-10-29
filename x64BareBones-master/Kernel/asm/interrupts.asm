@@ -147,12 +147,20 @@ _irq80Handler:
 	push rsi
 	mov rdi, rax
 	mov rsi, rbx
+	push rdx      ;swap
+	mov rdx, rcx
+	pop rcx
 
 	call syscallDispatcher
 
 	pop rsi
 	pop rdi
 	pop rbx
+
+	push rax
+	mov al, 20h
+	out 20h, al
+	pop rax
 
 	iretq
 

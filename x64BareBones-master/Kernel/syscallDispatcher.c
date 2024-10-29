@@ -5,27 +5,30 @@
 
 void write(unsigned int fd, const char * buffer, size_t count);
 
-void syscallDispatcher(int id, ...){
+void syscallDispatcher(int id, unsigned int fd, const char * buffer, size_t count){ //en realidad serían args variables
 
-    va_list args;
-    va_start(args, id);
+    putPixel(0x00FF0000, 20, 20);
+    write(fd, buffer, count);
 
-    switch(id){
-        case 4: int fd = va_arg(args, int); //crear enum fileDescriptor
-                char * buffer = va_arg(args, char*);
-                size_t count = va_arg(args, size_t);
-                write(fd, buffer, count);
-                break;
+    // va_list args;
+    // va_start(args, id);
 
-        default: int cursor[] = {0,0};
-                print("Fail", cursor);
-    }
+    // switch(id){
+    //     case 4: int fd = va_arg(args, int); //crear enum fileDescriptor
+    //             char * buffer = va_arg(args, char*);
+    //             size_t count = va_arg(args, size_t);
+    //             write(fd, buffer, count);
+    //             break;
 
-    va_end(args);
+    //     default: int cursor[] = {0,0};
+    //             print("Fail", cursor);
+    // }
+
+    // va_end(args);
 }
 
 
 void write(unsigned int fd, const char * buffer, size_t count){
     int cursor[] = {0,0};
-    print(buffer, cursor);
+    print("buffer", cursor);
 }

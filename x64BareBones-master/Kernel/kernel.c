@@ -90,6 +90,7 @@ void * initializeKernelBinary()
 int main()
 {	
 	load_idt();
+	((EntryPoint)sampleCodeModuleAddress)();
 	//hay que seguir esta logica pero probablemente del lado del userland
 	//eliminar los while(1)
 	//por ahora lo unico que hace es escribir y borrar

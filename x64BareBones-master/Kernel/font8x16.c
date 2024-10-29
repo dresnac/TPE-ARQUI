@@ -1164,7 +1164,7 @@ unsigned char font8x16[256][SYMBOL_LENGTH] = {
         0b00000000
     },
 
-    // Carácter 92     \
+    // Carácter 92  '\'
 
     {
         0b00000000,

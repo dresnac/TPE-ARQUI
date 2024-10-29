@@ -7,7 +7,7 @@ void write(unsigned int fd, const char * buffer, size_t count);
 
 void syscallDispatcher(int id, unsigned int fd, const char * buffer, size_t count){ //en realidad serían args variables
 
-    putPixel(0x00FF0000, 20, 20);
+    // putPixel(0x00FF0000, 20, 20);
     write(fd, buffer, count);
 
     // va_list args;

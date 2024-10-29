@@ -1,6 +1,8 @@
 GLOBAL cpuVendor
 GLOBAL getKey
+GLOBAL pruebaSysDispatcher
 
+EXTERN syscallDispatcher
 
 section .text
 	
@@ -38,3 +40,28 @@ getKey:
     in al, 60h
 
     ret
+
+pruebaSysDispatcher:
+
+	push rdi
+	push rsi
+	push rdx
+	push rcx
+
+	mov rdi, 1
+	mov rsi, 1
+	mov rdx, buffer
+	mov rcx, 5
+
+	int 80h
+
+	pop rcx
+	pop rdx
+	pop rsi
+	pop rdi
+
+	ret
+
+section .rodata
+
+buffer db "Jorge"

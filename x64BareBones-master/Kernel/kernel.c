@@ -6,6 +6,10 @@
 #include <videoDriver.h>
 #include <keyboardDriver.h>
 #include <idtLoader.h>
+#include <syscallDispatcher.h>
+
+extern void _irq80Handler();
+extern void pruebaSysDispatcher();
 
 #define PROMPT_TEXT "User@Kernel:$> "
 
@@ -90,7 +94,9 @@ void * initializeKernelBinary()
 int main()
 {	
 	load_idt();
-	((EntryPoint)sampleCodeModuleAddress)();
+	// _irq80Handler();
+	pruebaSysDispatcher();
+	// ((EntryPoint)sampleCodeModuleAddress)();
 	//hay que seguir esta logica pero probablemente del lado del userland
 	//eliminar los while(1)
 	//por ahora lo unico que hace es escribir y borrar

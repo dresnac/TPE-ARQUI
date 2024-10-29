@@ -142,27 +142,45 @@ _irq05Handler:
 	irqHandlerMaster 5
 
 _irq80Handler:
-	push rbx
+	; push rbx
+	; push rdi
+	; push rsi
+	; mov rdi, rax
+	; mov rsi, rbx
+	; push rdx      ;swap
+	; mov rdx, rcx
+	; pop rcx
+
+	; call syscallDispatcher
+
+	; pop rsi
+	; pop rdi
+	; pop rbx
+
+	; push rax
+	; mov al, 20h
+	; out 20h, al
+	; pop rax
+	;iretq
 	push rdi
 	push rsi
-	mov rdi, rax
-	mov rsi, rbx
-	push rdx      ;swap
-	mov rdx, rcx
-	pop rcx
+	push rdx
+	push rcx
 
+	mov rdi, 1
+	mov rsi, 1
+	mov rdx, buffer
+	mov rcx, 5
+
+	; int 80h
 	call syscallDispatcher
 
+	pop rcx
+	pop rdx
 	pop rsi
 	pop rdi
-	pop rbx
 
-	push rax
-	mov al, 20h
-	out 20h, al
-	pop rax
-
-	iretq
+	ret
 
 ;Zero Division Exception
 _exception0Handler:
@@ -177,3 +195,7 @@ haltcpu:
 
 SECTION .bss
 	aux resq 1
+
+section .rodata
+
+buffer db "Jorge"

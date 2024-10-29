@@ -30,5 +30,5 @@ void syscallDispatcher(int id, unsigned int fd, const char * buffer, size_t coun
 
 void write(unsigned int fd, const char * buffer, size_t count){
     int cursor[] = {0,0};
-    print("buffer", cursor);
+    print(buffer, cursor);
 }

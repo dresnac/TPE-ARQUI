@@ -5,6 +5,6 @@ void startShell(){
 
     char * ejemplo = "Jorge";
 
-    syscall(4, 1,(int64_t) ejemplo, 5);
+    syscall(4, 1, ejemplo, 5);
 
 }

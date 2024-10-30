@@ -36,7 +36,7 @@ void load_idt() {
 	picSlaveMask(0xFF);
   
         
-	//_sti(); //(el diablo)
+	_sti(); //(el diablo)
 }
 
 static void setup_IDT_entry (int index, uint64_t offset) {

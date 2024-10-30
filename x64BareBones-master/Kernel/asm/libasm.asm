@@ -3,6 +3,7 @@ GLOBAL getKey
 GLOBAL pruebaSysDispatcher
 
 EXTERN syscallDispatcher
+EXTERN _irq80Handler
 
 section .text
 	
@@ -53,7 +54,10 @@ pruebaSysDispatcher:
 	mov rdx, buffer
 	mov rcx, 5
 
+	;call _irq80Handler
 	int 80h
+
+	call _irq80Handler
 
 	pop rcx
 	pop rdx

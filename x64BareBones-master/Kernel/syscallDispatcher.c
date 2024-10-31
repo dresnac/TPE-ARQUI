@@ -5,10 +5,23 @@
 
 void write(unsigned int fd, const char * buffer, size_t count);
 
-void syscallDispatcher(int id, unsigned int fd, const char * buffer, size_t count){ //en realidad serían args variables
 
-    // putPixel(0x00FF0000, 20, 20);
-    write(fd, buffer, count);
+
+void syscallDispatcher(pushed_registers * regs){ //en realidad serían args variables
+
+
+    switch (regs->rax)
+    {
+    case 0:
+        putPixel(0xFFFFFF, 20, 20);
+        break;
+    
+    default:
+        write(fd, buffer, count);
+        break;
+    }
+
+   
 
     // va_list args;
     // va_start(args, id);
@@ -30,5 +43,5 @@ void syscallDispatcher(int id, unsigned int fd, const char * buffer, size_t coun
 
 void write(unsigned int fd, const char * buffer, size_t count){
     int cursor[] = {0,0};
-    print(buffer, cursor);
+    print("buffer", cursor);
 }

@@ -189,27 +189,12 @@ _irq05Handler:
 	irqHandlerMaster 5
 
 _irq80Handler:
-	; push rbx
-	; push rdi
-	; push rsi
+	
 	pushState
-	mov rdi, rax
-	mov rsi, rbx
-	push rdx      ;swap
-	mov rdx, rcx
-	pop rcx
-
+	mov rdi, rsp	; params
 	call syscallDispatcher
-
+	add rsp, 8
 	popState
-	; pop rsi
-	; pop rdi
-	; pop rbx
-
-	; push rax
-	; mov al, 20h
-	; out 20h, al
-	; pop rax
 	
 	iretq
 

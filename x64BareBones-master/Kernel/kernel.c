@@ -95,6 +95,8 @@ int main()
 {	
 	load_idt();
 	
+	//putPixel(0xFFFFFF, 20, 20);
+
 	//pruebaSysDispatcher();
 	//_irq80Handler();
 	((EntryPoint)sampleCodeModuleAddress)();

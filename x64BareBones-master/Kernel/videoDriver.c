@@ -43,6 +43,8 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
+static int cursor[] = {0, 0};
+
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
@@ -61,7 +63,7 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 // 	}
 // }
 
-void drawChar(char c, int * cursor){
+void drawChar(char c){
 	int x = cursor[0];
 	int y = cursor[1];
 	unsigned char * bitMap = font8x16[c-32];
@@ -76,19 +78,19 @@ void drawChar(char c, int * cursor){
 }
 
 
-void print(const char *s, int *cursor){
+void print(const char *s){
 	while(*s != '\0'){
-		drawChar(*s, cursor);
+		drawChar(*s);
 		s++;
 	}
 }
 
-void newline(int *cursor){
+void newline(){
 	cursor[1] += SYMBOL_LENGTH;
 	cursor[0] = 0;
 }
 
-void delete(int *cursor){
+void delete(){
 	if(cursor[0] <= 15*8){ //Para que no pise el prompt
 		return;
 	}

@@ -193,9 +193,8 @@ _irq80Handler:
 	pushState
 	mov rdi, rsp	; params
 	call syscallDispatcher
-	add rsp, 8
+	;add rsp, 8
 	popState
-	
 	iretq
 
 	

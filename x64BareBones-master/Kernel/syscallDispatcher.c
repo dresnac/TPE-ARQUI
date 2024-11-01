@@ -10,7 +10,7 @@ static void (*syscall_manager[])() = {
     empty,
     read,
     write,
-    clear,
+    clear_screen,
     delete,     //este llama directo a la func de video driver
     newline,
     //completar
@@ -27,7 +27,7 @@ void write(pushed_registers * regs){
     print((char*) regs->rcx);
 }
 
-void clear(pushed_registers * regs){
+void clear_screen(pushed_registers * regs){
     return;
 }
 
@@ -36,10 +36,5 @@ void empty(pushed_registers * regs){
 }
 
 void read(pushed_registers * regs){
-    int *shiftFlag;
-	*shiftFlag = 0;
-    print("hola");
-	char *c = getKeyPressed(shiftFlag);
-    regs->rdx = c;
     return;
 }

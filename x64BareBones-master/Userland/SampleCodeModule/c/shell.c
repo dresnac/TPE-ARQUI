@@ -10,10 +10,11 @@ void startShell(){
 
     while(1){
         syscall(4, 1, PROMPT_TEXT, 3); // imprime el prompt text
-        char c = 0;
-        int len;
+        syscall(4,1,"hola",4);  //NO LO IMPRIME dsps de una llamada a una syscall muere
+
+        char *c;
         while(1){
-            syscall(3, 1, c, len);   //leo el caracter del teclado
+            syscall(3, 1, 1, c);   //leo el caracter del teclado
 		    if(c == '\n')
 	 		{
 	 			syscall(6, 1, 1, 1); //borro, que pongo en los otros params?
@@ -27,7 +28,7 @@ void startShell(){
 	 		}
 	 		else{
 	 			syscall(6, 1, 1, 1); //borro, que pongo en los otros params?
-	 			syscall(4, 1, c, 3); // imprime el caracter
+	 			syscall(4, 1, *c, 3); // imprime el caracter
      			syscall(4, 1, "_", 3); // imprime el cursor
 	 		}
         }

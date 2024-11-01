@@ -38,8 +38,8 @@ void empty(pushed_registers * regs){
 void read(pushed_registers * regs){
     int *shiftFlag;
 	*shiftFlag = 0;
-	char c = getKeyPressed(shiftFlag);
-    regs->rcx = c;
-    regs->rdx = 1;
+    print("hola");
+	char *c = getKeyPressed(shiftFlag);
+    regs->rdx = c;
     return;
 }

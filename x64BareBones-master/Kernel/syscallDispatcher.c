@@ -10,10 +10,12 @@ static void (*syscall_manager[])() = {
     empty,
     read,
     write,
+    clear,
+    delete,     //este llama directo a la func de video driver
+    newline,
     //completar
     
 };
-
 
 void syscallDispatcher(pushed_registers * regs){ //en realidad serían args variables
 
@@ -22,8 +24,11 @@ void syscallDispatcher(pushed_registers * regs){ //en realidad serían args vari
 }
 
 void write(pushed_registers * regs){
-    print("hola");
     print((char*) regs->rcx);
+}
+
+void clear(pushed_registers * regs){
+    return;
 }
 
 void empty(pushed_registers * regs){
@@ -31,5 +36,10 @@ void empty(pushed_registers * regs){
 }
 
 void read(pushed_registers * regs){
+    int *shiftFlag;
+	*shiftFlag = 0;
+	char c = getKeyPressed(shiftFlag);
+    regs->rcx = c;
+    regs->rdx = 1;
     return;
 }

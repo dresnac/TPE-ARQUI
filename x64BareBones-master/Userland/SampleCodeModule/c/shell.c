@@ -10,7 +10,7 @@ void startShell(){
 
     while(1){
         syscall(4, 1, PROMPT_TEXT, 3); // imprime el prompt text
-        syscall(4,1,"hola",4);  //NO LO IMPRIME dsps de una llamada a una syscall muere
+        syscall(4, 1,"hola",4);  //NO LO IMPRIME dsps de una llamada a una syscall muere
 
         char *c;
         while(1){

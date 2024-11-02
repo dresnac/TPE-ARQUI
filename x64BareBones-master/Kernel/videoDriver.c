@@ -101,17 +101,14 @@ void newline(){
 }
 
 void delete(){
-	if(cursor[0] <= 15*8){ //Para que no pise el prompt  //Encontrar otra solución porfa
-		return;
-	}
-	int x = cursor[0]-8;
+	int x = cursor[0] - SYMBOL_WIDTH;
 	int y = cursor[1];
-	for(int i=0; i < 16; i++){
-		for(int j=0; j < 8; j++){
+	for(int i=0; i < SYMBOL_LENGTH; i++){
+		for(int j=0; j < SYMBOL_WIDTH; j++){
 			putPixel(0x00000000, j+x, i+y);
 		}
 	}
-	cursor[0]-=8;
+	cursor[0]-=SYMBOL_WIDTH;
 }
 
 void tab(){  //solución mala pero rápida

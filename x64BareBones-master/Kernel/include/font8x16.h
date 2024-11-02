@@ -6,6 +6,6 @@
 #define FIRST_SYMBOL_MAPPED 32
 #define LAST_SYMBOL_MAPPED 126
 
-extern unsigned char font8x16[256][16];
+extern unsigned char font8x16[256][SYMBOL_LENGTH];
 
 #endif

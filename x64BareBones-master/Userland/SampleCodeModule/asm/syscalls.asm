@@ -2,6 +2,7 @@ GLOBAL syscall
 GLOBAL sys_read
 GLOBAL sys_write
 GLOBAL sys_clear_screen
+GLOBAL sys_time
 
 
 section .text
@@ -35,8 +36,15 @@ sys_write:
 
 
 sys_clear_screen:
-    push rdi
-    mov rdi, 5
+
+    mov rax, 5
     call syscall
-    pop rdi
+  
+    ret
+
+sys_time:
+
+    mov rax, 8
+    call syscall
+  
     ret

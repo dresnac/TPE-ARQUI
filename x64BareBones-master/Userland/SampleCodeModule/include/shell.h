@@ -3,6 +3,13 @@
 
 #include <stdint.h>
 
+#define MAX_MODULES 9
+
+typedef struct module {
+    char *name;
+    void (*function)();
+} module;
+
 
 void startShell();
 

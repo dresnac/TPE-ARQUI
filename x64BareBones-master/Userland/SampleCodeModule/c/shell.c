@@ -6,7 +6,29 @@
 #define MAX_CHARS 110
 #define MSG_BUFFER_FULL "\nCuidado: Buffer de comandos lleno\n"
 
-static void interpret(char * buffer);
+static int interpret(char * buffer);
+static void help();
+static void showCurrentTime();
+static void zoomIn();
+static void zoomOut();
+static void getRegs();
+static void div0();
+static void opCode();
+static void clear();
+static void snake();
+
+static module modules[] = {
+    {"help", help},
+    {"time", showCurrentTime},
+    {"zoomin", zoomIn},
+    {"zoomout", zoomOut},
+    {"getregs", getRegs},
+    {"dividebyzero", div0},
+    {"opcode", opCode},
+    {"clear", clear},
+    {"snake", snake}
+};
+
 
 void startShell(){
 
@@ -21,10 +43,10 @@ void startShell(){
             c = getChar();
             if(c == '\n'){
                 commandBuff[i] = '\0';
-                interpret(commandBuff);
+                //interpret(commandBuff);
                 i = 0;
                 newPrompt = 1;
-                putChar(c);
+                if(!interpret(commandBuff)){putChar(c);}
             }else if(c == '\b'){
                 if(i > 0){
                     i--;
@@ -45,6 +67,69 @@ void startShell(){
 }
 
 
-static void interpret(char * buffer){
+static int interpret(char * buffer){
+    int flag = 0;
+    for(int i = 0; i<MAX_MODULES; i++){
+        if(!strcmp(buffer, modules[i].name)){
+            modules[i].function();
+            if(i==7){               //si el comando fue clear activa el flag (modificarlo)
+                flag = 1;
+            }
+        }
+    }
+    return flag;
+}
+
+//muestra comandos disponibles
+static void help(){
+    printf("\n\tCOMANDOS DISPONIBLES\n");
+    printf("\thelp\n");
+    printf("\ttime\n");
+    printf("\tzoomin\n");
+    printf("\tzoomout\n");
+    printf("\tgetregs\n");
+    printf("\tdevidebyzero\n");
+    printf("\topcode\n");
+    printf("\tclear\n");
+    printf("\tsnake\n");
+}
+
+//muestra la hora actual
+static void showCurrentTime(){
+    time();
+}
+
+//agranda la pantalla
+static void zoomIn(){
+    return;
+}
+
+//achica la pantalla
+static void zoomOut(){
+    return;
+}
+
+//muestra los registros
+static void getRegs(){
+    return;
+}
+
+//divide por cero hace saltar la excepcion
+static void div0(){
+    return;
+}
+
+//(?)
+static void opCode(){
+    return;
+}
+
+//borra toda la pantalla y solo deja el primer prompt
+static void clear(){
+    clear_screen();
+}
+
+//juego del snake
+static void snake(){
     return;
 }

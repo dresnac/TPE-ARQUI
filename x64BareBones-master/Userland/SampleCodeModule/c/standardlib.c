@@ -75,6 +75,10 @@ int64_t fputc(char c, FileDescriptor fd) {
     return sys_write(fd, &c, 1);   //retorna basura
 }
 
+void time(){
+    sys_time();
+}
+
 
 static int64_t vfprintf(FileDescriptor fd, const char *fmt, va_list args)
 {
@@ -178,6 +182,7 @@ int64_t strcmp(const char *str1, const char *str2) {
     }
     return *(unsigned char *)str1 - *(unsigned char *)str2;
 }
+
 
 /* A partir de acá analizar si las necesitamos o no, ojo que al descomentar hay que agregar/implementar las syscalls */
 

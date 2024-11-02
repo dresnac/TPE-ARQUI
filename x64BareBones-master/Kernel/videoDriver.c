@@ -116,6 +116,15 @@ void tab(){  //solución mala pero rápida
 	return;
 }
 
+void vdClearScreen(){
+	for(int i=0; i < VBE_mode_info->width; i++){
+		for(int j=0; j < VBE_mode_info->height; j++){
+			putPixel(0x00000000,i,j);
+		}
+	}
+	cursor[0]=0;
+	cursor[1]=0;
+}
 
 //Habría que pensar funciones para saber dónde está el cursor y para poder moverlo a gusto
 //(Para escribir en distintas zonas de la pantalla)

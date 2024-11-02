@@ -1,9 +1,7 @@
 GLOBAL cpuVendor
 GLOBAL getKey
-GLOBAL pruebaSysDispatcher
-
-EXTERN syscallDispatcher
-EXTERN _irq80Handler
+GLOBAL getHs
+GLOBAL getMin
 
 section .text
 	
@@ -32,6 +30,36 @@ cpuVendor:
 	ret
 
 
+;inc
+getHs:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 0
+	mov al, 0x04
+	out 70h, al
+	in ax, 71h
+
+	mov rsp, rbp
+	pop rbp
+
+	ret
+
+getMin:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 0
+	mov al, 0x02
+	out 70h, al
+	in ax, 71h
+
+	mov rsp, rbp
+	pop rbp
+
+	ret
+
+
 getKey:
     mov rax, 0
 .cicle: 
@@ -41,30 +69,6 @@ getKey:
     in al, 60h
 
     ret
-
-pruebaSysDispatcher:
-
-	push rdi
-	push rsi
-	push rdx
-	push rcx
-
-	mov rdi, 4
-	mov rsi, 1
-	mov rdx, buffer
-	mov rcx, 5
-
-	;call _irq80Handler
-	int 80h
-
-	call _irq80Handler
-
-	pop rcx
-	pop rdx
-	pop rsi
-	pop rdi
-
-	ret
 
 section .rodata
 

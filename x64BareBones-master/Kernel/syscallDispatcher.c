@@ -7,6 +7,10 @@
 
 static int shiftFlag = 0;
 
+char * numToString(uint64_t num, uint64_t base);
+extern int getHs();
+extern int getMin();
+
 static void (*syscall_manager[])() = {
     empty,
     empty,
@@ -16,6 +20,7 @@ static void (*syscall_manager[])() = {
     clear_screen,
     delete,     //este llama directo a la func de video driver
     newline,
+    time,
     //completar
     
 };
@@ -32,7 +37,7 @@ void write(pushed_registers * regs){
 }
 
 void clear_screen(pushed_registers * regs){
-    return;
+    vdClearScreen();
 }
 
 void empty(pushed_registers * regs){
@@ -45,4 +50,27 @@ void read(pushed_registers * regs){  //el FileDescriptor no sirve de mucho supon
         aux[i] = getKeyPressed(&shiftFlag);
     }
     return;
+}
+
+void time(pushed_registers * regs){
+    char *horas;
+    char *minutos;
+    char *time;
+    horas=numToString(getHs(),16);
+    minutos=numToString(getMin(),16);
+    newline();
+    vdPrint(horas, 2, 0x00FFFFFF);
+    vdPrint(":",1,0x00FFFFFF);
+    vdPrint(minutos, 2, 0x00FFFFFF);
+}
+
+char * numToString(uint64_t num, uint64_t base) {
+    static char buffer[64];
+    char * ptr = &buffer[63];
+    *ptr = '\0';
+    do {
+        *--ptr = "0123456789abcdef"[num % base];
+        num /= base;
+    } while(num != 0);
+    return ptr;
 }

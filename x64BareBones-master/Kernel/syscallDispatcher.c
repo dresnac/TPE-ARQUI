@@ -5,6 +5,8 @@
 #include <stddef.h>  //para size_t
 #include <syscallDispatcher.h>
 
+static int shiftFlag = 0;
+
 static void (*syscall_manager[])() = {
     empty,
     empty,
@@ -38,13 +40,9 @@ void empty(pushed_registers * regs){
 }
 
 void read(pushed_registers * regs){  //el FileDescriptor no sirve de mucho supongo
-    // int * shiftFlag = {0};     //Intente algo pero no funcionó, quizas lo mejor sea hacer un buffer para el keyboard
-    // char * aux = (char*) regs->rcx;
-    // for(int i=0; i < regs->rdx; i++){
-    //     aux[i] = getKeyPressed(shiftFlag);
-    //     aux[i] = 'a';
-    //     vdPrint("La letra es: ", 20, 0x00FFFFFF);
-    //     vdPrint(regs->rcx, 1, 0x00FFFFFF);
-    // }
+    char * aux = (char*) regs->rcx;
+    for(int i=0; i < regs->rdx; i++){
+        aux[i] = getKeyPressed(&shiftFlag);
+    }
     return;
 }

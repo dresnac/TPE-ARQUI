@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <videoDriver.h>
 
 //keyboardDriver.c
 #define SHIFT_PRESSED 0x2A  //42 en decimal
@@ -52,7 +53,7 @@ static char getAscii(int scancode, int shiftOn){
 		{'6', '^'},
 		{'7', '&'},
 		{'8', '*'},
-		{'9', '('},
+		{'9', '('}, 
 		{'0', ')'},
 		{'-', '_'},
 		{'=', '+'},

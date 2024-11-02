@@ -12,7 +12,7 @@ typedef struct {
 void empty(pushed_registers * regs);
 void read(pushed_registers * regs);
 void write(pushed_registers * regs);
-void clear(pushed_registers * regs);
+void clear_screen(pushed_registers * regs);
 
 void syscallDispatcher(pushed_registers * regs);
 

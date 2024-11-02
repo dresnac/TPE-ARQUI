@@ -1,6 +1,6 @@
 #ifndef KEYBOARDDRIVER_H
 #define KEYBOARDDRIVER_H
 
-char getKeyPressed(int *f);
+char getKeyPressed(int *shiftFlag);
 
 #endif

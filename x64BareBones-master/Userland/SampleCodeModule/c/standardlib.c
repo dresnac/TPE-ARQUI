@@ -1,14 +1,16 @@
 #include <standardlib.h>
-#include <stdarg.h>
-#include <stdint.h>
+
 
 //ver bien que devuelve cada función (en particular, cada syscall)
 
 
 char getChar(){
-    uint16_t c;
-    while( sys_read(STDIN, &c, 1) == 0 || c > 255 );
-    return (char) c;
+    // uint16_t c;
+    // while( sys_read(STDIN, &c, 1) == 0 || c > 255 );
+    // return (char) c;
+    char c;
+    sys_read(STDIN, &c, 1);
+    return c;
 }
 
 void putChar(char c) {
@@ -36,8 +38,17 @@ uint64_t strlen(const char *str) {
     return s - str;
 }
 
+void strcopy(const char * s, char * t){ //chequear si strcopy era así
+    while(*s){
+        *t = *s;
+        s++;
+        t++;
+    }
+    *t = 0;
+}
 
-char * numToString(uint64_t num, uint64_t base) { //VIVA CUBA
+
+char * numToString(uint64_t num, uint64_t base) {
     static char buffer[64];
     char * ptr = &buffer[63];
     *ptr = '\0';
@@ -50,12 +61,173 @@ char * numToString(uint64_t num, uint64_t base) { //VIVA CUBA
 
 
 int64_t puts(const char * str) {
-    return sys_write(STDOUT, str, strlen(str));
+    int len = strlen(str);
+    char * aux;
+    strcopy(str, aux);
+    aux[len] = '\n';
+    aux[len+1] = '\0';
+    return sys_write(STDOUT, aux, len+1);  //retorna basura
 }
 
 
 int64_t fputc(char c, FileDescriptor fd) {
-    return sys_write(fd, &c, 1) == -1 ? -1 : 0;  //nunca devuelve -1, ver si pasamos todo a que sea void
+    // return sys_write(fd, &c, 1) == -1 ? -1 : 0;  //nunca devuelve -1, ver si pasamos todo a que sea void
+    return sys_write(fd, &c, 1);   //retorna basura
 }
 
 
+static int64_t vfprintf(FileDescriptor fd, const char *fmt, va_list args)
+{
+    uint64_t flag = 0;
+    uint64_t written = 0;
+
+    for (uint64_t i = 0; fmt[i] != '\0'; i++)
+    {
+        if (fmt[i] == '%' && !flag)
+        {
+            flag = 1;
+            i++;
+        }
+
+        if (!flag)
+        {
+            fputc(fmt[i], fd);
+            flag = 0;
+            written++;
+            continue;
+        }
+
+        switch (fmt[i])
+        {
+            case 'c':
+                fputc(va_arg(args, int), fd);
+                written++;
+                break;
+            case 'd':
+                written += vfprintf(fd, numToString(va_arg(args, uint64_t), 10), args);
+                break;
+            case 'x':
+                written += vfprintf(fd, "0x", args);
+                written += vfprintf(fd, numToString(va_arg(args, uint64_t), 16), args);
+                break;
+            case 's':
+                written += vfprintf(fd, va_arg(args, char *), args);
+                break;
+            case '%':
+                fputc('%', fd);
+                written++;
+                break;
+            default:
+                return -1;
+        }
+
+        flag = 0;
+    }
+
+    return written;
+}
+
+
+int64_t fprintf(FileDescriptor fd, const char * fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    int64_t out = vfprintf(fd, fmt, args);
+
+    va_end(args);
+    return out;
+}
+
+
+int64_t printf(const char * fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    int64_t out = vfprintf(STDOUT, fmt, args);
+
+    va_end(args);
+    return out;
+}
+
+
+char* gets(char* buffer, int n) {
+    int c;
+    int i = 0;
+
+    while ((c = getChar()) != '\n') {
+        if (c == '\b' && i > 0) {
+            putChar(c);
+            i--;
+        }
+        if (c != '\b' && i < n - 1) {
+            putChar(c);
+            buffer[i++] = (char)c;
+        }
+    }
+    putChar('\n');
+    buffer[i] = '\0';
+
+    return buffer;
+}
+
+
+int64_t strcmp(const char *str1, const char *str2) {
+    while (*str1 && (*str1 == *str2)) {
+        str1++;
+        str2++;
+    }
+    return *(unsigned char *)str1 - *(unsigned char *)str2;
+}
+
+/* A partir de acá analizar si las necesitamos o no, ojo que al descomentar hay que agregar/implementar las syscalls */
+
+
+// int64_t enter_video_mode() {
+//     return sys_set_mode(VIDEO_MODE);
+// }
+
+// int64_t enter_text_mode() {
+//     return sys_set_mode(TEXT_MODE);
+// }
+
+
+// int64_t draw_pixel(uint64_t x, uint64_t y, Color color) {
+//     return sys_put_pixel(x, y, &color);
+// }
+
+// int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color) {
+//     return sys_put_rectangle(x, y, width, height, &color);
+// }
+
+// int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size) {
+//     return sys_draw_letter(x, y, &letter, &color, font_size);
+//     // int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize)
+// }
+
+
+// void print_register_snapshot() {
+//     Snapshot snap;
+//     if(sys_get_register_snapshot(&snap) == -1) {
+//         fprintf(STDERR, "No register snapshot available. Press F1 to take a snapshot.\n");
+//         return;
+//     }
+
+//     puts("Register snapshot:\n");
+//     printf("rax: %x\n", snap.rax);
+//     printf("rbx: %x\n", snap.rbx);
+//     printf("rcx: %x\n", snap.rcx);
+//     printf("rdx: %x\n", snap.rdx);
+//     printf("rsi: %x\n", snap.rsi);
+//     printf("rdi: %x\n", snap.rdi);
+//     printf("rbp: %x\n", snap.rbp);
+//     printf("rsp: %x\n", snap.rsp);
+//     printf("r8:  %x\n", snap.r8 );
+//     printf("r9:  %x\n", snap.r9 );
+//     printf("r10: %x\n", snap.r10);
+//     printf("r11: %x\n", snap.r11);
+//     printf("r12: %x\n", snap.r12);
+//     printf("r13: %x\n", snap.r13);
+//     printf("r14: %x\n", snap.r14);
+//     printf("r15: %x\n", snap.r15);
+//     printf("rIP: %x\n", snap.rip);
+// }

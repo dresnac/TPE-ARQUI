@@ -53,24 +53,15 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
 }
 
-// void drawChar(char c,int x, int y){
-// 	for(int i=0;i<16;i++){
-// 		for(int j=0;j<8;j++){
-// 			if(font8x16[1][i][j]){
-// 				putPixel(0x00FFFFFF, j+x, i+y);
-// 			}
-// 		}
-// 	}
-// }
 
-void drawChar(char c){
+void drawChar(char c, uint32_t hexColor){
 	int x = cursor[0];
 	int y = cursor[1];
-	unsigned char * bitMap = font8x16[c-32];
+	unsigned char * bitMap = font8x16[c-FIRST_SYMBOL_MAPPED];
 	for(int i=0; i < 16; i++){
 		for(int j=0; j < 8; j++){
 			if(bitMap[i] & (1 << (7 - j))){
-				putPixel(0x00FFFFFF, j+x, i+y);
+				putPixel(hexColor, j+x, i+y);
 			}
 		}
 	}
@@ -78,11 +69,30 @@ void drawChar(char c){
 }
 
 
-void print(const char *s){
-	while(*s != '\0'){
-		drawChar(*s);
-		s++;
-	}
+void vdPrint(const char *buffer, int count, uint32_t hexColor){
+	
+	int i=0;
+	while (buffer[i] != 0 && i<count) {
+        switch (buffer[i]) {
+            case '\n':
+                newline();
+                break;
+            case '\b':
+            	delete();
+                break;
+            case '\t':
+                tab();
+                break;
+            default:
+                if(buffer[i] >= FIRST_SYMBOL_MAPPED && buffer[i] <= LAST_SYMBOL_MAPPED){  
+					//(PENSAR) Guardar todo lo escrito en un buffer?
+                    drawChar(buffer[i], hexColor);
+                }
+                break;
+        }
+        i++;
+    }
+
 }
 
 void newline(){
@@ -91,7 +101,7 @@ void newline(){
 }
 
 void delete(){
-	if(cursor[0] <= 15*8){ //Para que no pise el prompt
+	if(cursor[0] <= 15*8){ //Para que no pise el prompt  //Encontrar otra solución porfa
 		return;
 	}
 	int x = cursor[0]-8;
@@ -103,3 +113,12 @@ void delete(){
 	}
 	cursor[0]-=8;
 }
+
+void tab(){  //solución mala pero rápida
+	vdPrint("    ", 4, 0);
+	return;
+}
+
+
+//Habría que pensar funciones para saber dónde está el cursor y para poder moverlo a gusto
+//(Para escribir en distintas zonas de la pantalla)

@@ -4,8 +4,9 @@
 #include <stdint.h>
 
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y);
-void drawChar(char);
-void print(const char *s);
+void drawChar(char c, uint32_t hexColor);
+void vdPrint(const char *buffer, int count, uint32_t hexColor);
 void newline();
 void delete();
+void tab();
 #endif

@@ -17,6 +17,9 @@ GLOBAL _irq80Handler
 
 GLOBAL _exception0Handler
 
+GLOBAL regs_shot
+GLOBAL regs_shot_available
+
 EXTERN should_take_reg_shot
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher

@@ -3,6 +3,7 @@ GLOBAL sys_read
 GLOBAL sys_write
 GLOBAL sys_clear_screen
 GLOBAL sys_time
+GLOBAL sys_get_regs
 
 
 section .text

@@ -78,7 +78,7 @@ void regs(pushed_registers * regs){
     Snapshot * snapshot = regs->rdi;
 
     if(!regs_shot_available) {
-        return;
+        return -1;
     }
 
     snapshot->rax = regs_shot[0];

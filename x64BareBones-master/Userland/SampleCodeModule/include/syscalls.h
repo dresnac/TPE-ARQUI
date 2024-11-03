@@ -13,6 +13,8 @@ uint64_t sys_clear_screen(void);
 
 uint64_t sys_time(LocalTime * time);
 
+
+
 typedef struct {
     uint64_t rax;
     uint64_t rbx;
@@ -32,5 +34,7 @@ typedef struct {
     uint64_t r15;
     uint64_t rip;
 } Snapshot;
+
+uint64_t sys_get_regs(Snapshot *);
 
 #endif

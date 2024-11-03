@@ -1,6 +1,4 @@
 #include <standardlib.h>
-
-
 //ver bien que devuelve cada función (en particular, cada syscall)
 
 
@@ -212,12 +210,13 @@ int64_t strcmp(const char *str1, const char *str2) {
 
 void print_regs() {
     Snapshot snap;
+
     if(sys_get_regs(&snap) == -1) {
         fprintf(STDERR, "No register snapshot available. Press F1 to take a snapshot.\n");
         return;
     }
 
-    puts("Register snapshot:\n");
+    puts("\nRegister snapshot:\n");
     printf("rax: %x\n", snap.rax);
     printf("rbx: %x\n", snap.rbx);
     printf("rcx: %x\n", snap.rcx);

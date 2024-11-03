@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <syscalls.h>
+#include <localtime.h>
 
 typedef enum
 {
@@ -24,6 +25,7 @@ void strcopy(const char * s, char * t);
 char * numToString(uint64_t num, uint64_t base);
 int64_t puts(const char * str);
 int64_t fputc(char c, FileDescriptor fd);
+void time(LocalTime * time);
 int64_t fprintf(FileDescriptor fd, const char * fmt, ...);
 int64_t printf(const char * fmt, ...);
 char* gets(char* buffer, int n);

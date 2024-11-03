@@ -96,7 +96,9 @@ static void help(){
 
 //muestra la hora actual
 static void showCurrentTime(){
-    time();
+    LocalTime currentTime;
+    time(&currentTime);  //completa el struct con la hora actual
+    printf("\nLa hora es %d:%d", currentTime.horas, currentTime.minutos);
 }
 
 //agranda la pantalla

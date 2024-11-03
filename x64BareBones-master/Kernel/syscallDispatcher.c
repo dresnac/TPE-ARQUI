@@ -7,7 +7,8 @@
 
 static int shiftFlag = 0;
 
-char * numToString(uint64_t num, uint64_t base);
+static char * numToString(uint64_t num, uint64_t base);
+static uint8_t bcd_decimal(uint8_t BCD);
 extern int getHs();
 extern int getMin();
 
@@ -53,18 +54,22 @@ void read(pushed_registers * regs){  //el FileDescriptor no sirve de mucho supon
 }
 
 void time(pushed_registers * regs){
-    char *horas;
-    char *minutos;
-    char *time;
-    horas=numToString(getHs(),16);
-    minutos=numToString(getMin(),16);
-    newline();
-    vdPrint(horas, 2, 0x00FFFFFF);
-    vdPrint(":",1,0x00FFFFFF);
-    vdPrint(minutos, 2, 0x00FFFFFF);
+    // char *horas;
+    // char *minutos;
+    // char *time;
+    // horas=numToString(getHs(),16);
+    // minutos=numToString(getMin(),16);
+    // newline();
+    // vdPrint(horas, 2, 0x00FFFFFF);
+    // vdPrint(":",1,0x00FFFFFF);
+    // vdPrint(minutos, 2, 0x00FFFFFF);
+    LocalTime * time = regs->rbx;
+    // vdPrint(numToString(getHs(), 16), 2, 0x00FFFFFF); // getHs está devolviendo 0.
+    time->horas = bcd_decimal(getHs());
+    time->minutos = bcd_decimal(getMin());
 }
 
-char * numToString(uint64_t num, uint64_t base) {
+static char * numToString(uint64_t num, uint64_t base) {
     static char buffer[64];
     char * ptr = &buffer[63];
     *ptr = '\0';
@@ -73,4 +78,8 @@ char * numToString(uint64_t num, uint64_t base) {
         num /= base;
     } while(num != 0);
     return ptr;
+}
+
+static uint8_t bcd_decimal(uint8_t BCD) {
+    return (BCD >> 4) * 10 + (BCD & 0x0F);
 }

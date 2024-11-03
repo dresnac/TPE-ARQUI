@@ -75,8 +75,8 @@ int64_t fputc(char c, FileDescriptor fd) {
     return sys_write(fd, &c, 1);   //retorna basura
 }
 
-void time(){
-    sys_time();
+void time(LocalTime * time){
+    sys_time(time);
 }
 
 

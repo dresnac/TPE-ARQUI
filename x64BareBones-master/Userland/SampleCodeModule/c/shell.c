@@ -113,6 +113,7 @@ static void zoomOut(){
 
 //muestra los registros
 static void getRegs(){
+    print_regs();
     return;
 }
 

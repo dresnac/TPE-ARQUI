@@ -48,3 +48,10 @@ sys_time:
     call syscall
   
     ret
+
+sys_get_regs:
+
+    mov rax, 9
+    call syscall
+  
+    ret

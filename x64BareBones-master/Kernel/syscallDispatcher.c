@@ -9,8 +9,12 @@ static int shiftFlag = 0;
 
 static char * numToString(uint64_t num, uint64_t base);
 static uint8_t bcd_decimal(uint8_t BCD);
-extern int getHs();
-extern int getMin();
+
+extern int Hours();
+extern int Mins();
+
+extern uint64_t regs_shot[17];
+extern uint64_t regs_shot_available;
 
 static void (*syscall_manager[])() = {
     empty,
@@ -22,6 +26,7 @@ static void (*syscall_manager[])() = {
     delete,     //este llama directo a la func de video driver
     newline,
     time,
+    regs,
     //completar
     
 };
@@ -65,9 +70,37 @@ void time(pushed_registers * regs){
     // vdPrint(minutos, 2, 0x00FFFFFF);
     LocalTime * time = regs->rbx;
     // vdPrint(numToString(getHs(), 16), 2, 0x00FFFFFF); // getHs está devolviendo 0.
-    time->horas = bcd_decimal(getHs());
-    time->minutos = bcd_decimal(getMin());
+    time->horas = bcd_decimal(Hours());
+    time->minutos = bcd_decimal(Mins());
 }
+
+void regs(pushed_registers * regs){
+    Snapshot * snapshot = regs->rdi;
+
+    if(!regs_shot_available) {
+        return;
+    }
+
+    snapshot->rax = regs_shot[0];
+    snapshot->rbx = regs_shot[1];
+    snapshot->rcx = regs_shot[2];
+    snapshot->rdx = regs_shot[3];
+    snapshot->rsi = regs_shot[4];
+    snapshot->rdi = regs_shot[5];
+    snapshot->rbp = regs_shot[6];
+    snapshot->rsp = regs_shot[7];
+    snapshot->r8 = regs_shot[8];
+    snapshot->r9 = regs_shot[9];
+    snapshot->r10 = regs_shot[10];
+    snapshot->r11 = regs_shot[11];
+    snapshot->r12 = regs_shot[12];
+    snapshot->r13 = regs_shot[13];
+    snapshot->r14 = regs_shot[14];
+    snapshot->r15 = regs_shot[15];
+    snapshot->rip = regs_shot[16];
+    return 0;
+}
+
 
 static char * numToString(uint64_t num, uint64_t base) {
     static char buffer[64];

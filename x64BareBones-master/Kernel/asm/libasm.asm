@@ -1,7 +1,7 @@
 GLOBAL cpuVendor
 GLOBAL getKey
-GLOBAL getHs
-GLOBAL getMin
+GLOBAL Hours
+GLOBAL Mins
 
 section .text
 	
@@ -31,7 +31,7 @@ cpuVendor:
 
 
 ;inc
-getHs:
+Hours:
 	push rbp
 	mov rbp, rsp
 
@@ -45,7 +45,7 @@ getHs:
 
 	ret
 
-getMin:
+Mins:
 	push rbp
 	mov rbp, rsp
 

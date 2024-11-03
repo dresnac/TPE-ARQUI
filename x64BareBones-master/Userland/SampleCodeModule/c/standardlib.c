@@ -210,29 +210,29 @@ int64_t strcmp(const char *str1, const char *str2) {
 // }
 
 
-// void print_register_snapshot() {
-//     Snapshot snap;
-//     if(sys_get_register_snapshot(&snap) == -1) {
-//         fprintf(STDERR, "No register snapshot available. Press F1 to take a snapshot.\n");
-//         return;
-//     }
+void print_regs() {
+    Snapshot snap;
+    if(sys_get_regs(&snap) == -1) {
+        fprintf(STDERR, "No register snapshot available. Press F1 to take a snapshot.\n");
+        return;
+    }
 
-//     puts("Register snapshot:\n");
-//     printf("rax: %x\n", snap.rax);
-//     printf("rbx: %x\n", snap.rbx);
-//     printf("rcx: %x\n", snap.rcx);
-//     printf("rdx: %x\n", snap.rdx);
-//     printf("rsi: %x\n", snap.rsi);
-//     printf("rdi: %x\n", snap.rdi);
-//     printf("rbp: %x\n", snap.rbp);
-//     printf("rsp: %x\n", snap.rsp);
-//     printf("r8:  %x\n", snap.r8 );
-//     printf("r9:  %x\n", snap.r9 );
-//     printf("r10: %x\n", snap.r10);
-//     printf("r11: %x\n", snap.r11);
-//     printf("r12: %x\n", snap.r12);
-//     printf("r13: %x\n", snap.r13);
-//     printf("r14: %x\n", snap.r14);
-//     printf("r15: %x\n", snap.r15);
-//     printf("rIP: %x\n", snap.rip);
-// }
+    puts("Register snapshot:\n");
+    printf("rax: %x\n", snap.rax);
+    printf("rbx: %x\n", snap.rbx);
+    printf("rcx: %x\n", snap.rcx);
+    printf("rdx: %x\n", snap.rdx);
+    printf("rsi: %x\n", snap.rsi);
+    printf("rdi: %x\n", snap.rdi);
+    printf("rbp: %x\n", snap.rbp);
+    printf("rsp: %x\n", snap.rsp);
+    printf("r8:  %x\n", snap.r8 );
+    printf("r9:  %x\n", snap.r9 );
+    printf("r10: %x\n", snap.r10);
+    printf("r11: %x\n", snap.r11);
+    printf("r12: %x\n", snap.r12);
+    printf("r13: %x\n", snap.r13);
+    printf("r14: %x\n", snap.r14);
+    printf("r15: %x\n", snap.r15);
+    printf("rIP: %x\n", snap.rip);
+}

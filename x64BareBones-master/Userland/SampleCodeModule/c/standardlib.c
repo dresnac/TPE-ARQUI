@@ -210,9 +210,10 @@ int64_t strcmp(const char *str1, const char *str2) {
 
 void print_regs() {
     Snapshot snap;
-
-    if(sys_get_regs(&snap) == -1) {
-        fprintf(STDERR, "No register snapshot available. Press F1 to take a snapshot.\n");
+    int flag = -1;
+    sys_get_regs(&snap, &flag);
+    if(flag == -1) {
+        fprintf(STDERR, "\nNo register snapshot available. Press ESC to take a snapshot.\n");
         return;
     }
 

@@ -54,6 +54,9 @@ void read(pushed_registers * regs){  //el FileDescriptor no sirve de mucho supon
     char * aux = (char*) regs->rcx;
     for(int i=0; i < regs->rdx; i++){
         aux[i] = getKeyPressed(&shiftFlag);
+        if(aux[i]==27){
+            escPressed();
+        }
     }
     return;
 }
@@ -70,15 +73,22 @@ void time(pushed_registers * regs){
     // vdPrint(minutos, 2, 0x00FFFFFF);
     LocalTime * time = regs->rbx;
     // vdPrint(numToString(getHs(), 16), 2, 0x00FFFFFF); // getHs está devolviendo 0.
+    
+    if(Hours()==0x00){
+        vdPrint("no", 2, 0x00FFFFFF);   //compruebo que efectivamente Hours devuelve 0
+    }
+
     time->horas = bcd_decimal(Hours());
     time->minutos = bcd_decimal(Mins());
 }
 
 void regs(pushed_registers * regs){
-    Snapshot * snapshot = regs->rdi;
+    Snapshot * snapshot = regs->rbx;
+    int * flag = (int*)regs->rcx;
 
     if(!regs_shot_available) {
-        return -1;
+        *flag = -1;
+        return;
     }
 
     snapshot->rax = regs_shot[0];
@@ -98,7 +108,8 @@ void regs(pushed_registers * regs){
     snapshot->r14 = regs_shot[14];
     snapshot->r15 = regs_shot[15];
     snapshot->rip = regs_shot[16];
-    return 0;
+
+    *flag = 0;
 }
 
 

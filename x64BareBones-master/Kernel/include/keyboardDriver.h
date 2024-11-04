@@ -2,5 +2,6 @@
 #define KEYBOARDDRIVER_H
 
 char getKeyPressed(int *shiftFlag);
+void escPressed();
 
 #endif

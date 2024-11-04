@@ -9,6 +9,8 @@ extern int getKey();
 static char getKeyPressedRec(int *shiftFlag);
 static char getAscii(int scancode, int shiftOn);
 
+static uint8_t reg_shot_flag = 0;
+
 
 /* Wrapper */
 char getKeyPressed(int *shiftFlag){
@@ -105,7 +107,11 @@ static char getAscii(int scancode, int shiftOn){
     return scancode_to_ascii[scancode][shiftOn];
 }
 
-//lulo
+
 uint8_t should_take_reg_shot() {
-	return 0;
+	return reg_shot_flag;
+}
+
+void escPressed(){
+	reg_shot_flag = 1;
 }

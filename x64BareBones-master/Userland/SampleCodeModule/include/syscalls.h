@@ -35,6 +35,6 @@ typedef struct {
     uint64_t rip;
 } Snapshot;
 
-uint64_t sys_get_regs(Snapshot *);
+uint64_t sys_get_regs(Snapshot *, int *);
 
 #endif

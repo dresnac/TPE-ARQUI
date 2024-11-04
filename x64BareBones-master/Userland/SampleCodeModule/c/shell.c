@@ -6,7 +6,7 @@
 #define MAX_CHARS 110
 #define MSG_BUFFER_FULL "\nCuidado: Buffer de comandos lleno\n"
 
-static int interpret(char * buffer);
+static void interpret(char * buffer);
 static void help();
 static void showCurrentTime();
 static void zoomIn();
@@ -43,15 +43,18 @@ void startShell(){
             c = getChar();
             if(c == '\n'){
                 commandBuff[i] = '\0';
-                //interpret(commandBuff);
+                interpret(commandBuff);
                 i = 0;
                 newPrompt = 1;
-                if(!interpret(commandBuff)){putChar(c);}
             }else if(c == '\b'){
                 if(i > 0){
                     i--;
                     putChar(c);
                 }
+            }
+            else if(c == 27)
+            {
+                continue;
             }else{
                 commandBuff[i++] = c;
                 putChar(c);
@@ -67,17 +70,18 @@ void startShell(){
 }
 
 
-static int interpret(char * buffer){
-    int flag = 0;
+static void interpret(char * buffer){
+    int found = 0;
     for(int i = 0; i<MAX_MODULES; i++){
         if(!strcmp(buffer, modules[i].name)){
             modules[i].function();
-            if(i==7){               //si el comando fue clear activa el flag (modificarlo)
-                flag = 1;
-            }
+            found = 1;
         }
     }
-    return flag;
+    if(!found){
+        putChar('\n');
+    }
+    return;
 }
 
 //muestra comandos disponibles
@@ -99,6 +103,7 @@ static void showCurrentTime(){
     LocalTime currentTime;
     time(&currentTime);  //completa el struct con la hora actual
     printf("\nLa hora es %d:%d", currentTime.horas, currentTime.minutos);
+    putChar('\n');
 }
 
 //agranda la pantalla
@@ -114,7 +119,6 @@ static void zoomOut(){
 //muestra los registros
 static void getRegs(){
     print_regs();
-    return;
 }
 
 //divide por cero hace saltar la excepcion

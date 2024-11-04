@@ -39,6 +39,8 @@ struct vbe_mode_info_structure {
 	uint8_t reserved1[206];
 } __attribute__ ((packed));
 
+static int fontSize = 2;
+
 typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
@@ -58,14 +60,26 @@ void drawChar(char c, uint32_t hexColor){
 	int x = cursor[0];
 	int y = cursor[1];
 	unsigned char * bitMap = font8x16[c-FIRST_SYMBOL_MAPPED];
-	for(int i=0; i < 16; i++){
-		for(int j=0; j < 8; j++){
-			if(bitMap[i] & (1 << (7 - j))){
-				putPixel(hexColor, j+x, i+y);
+	int z=0;
+	int w=0;
+	for(int i=0; i < 16*fontSize; i+=fontSize){
+		w=0;
+		for(int j=0; j < 8*fontSize; j+=fontSize){
+			if(bitMap[z] & (1 << (7 - w))){
+				if(fontSize == 2){
+					putPixel(hexColor, j+x, i+y);
+					putPixel(hexColor, j+x+1, i+y);
+					putPixel(hexColor, j+x, i+y+1);
+					putPixel(hexColor, j+x+1, i+y+1);
+				}else{
+					putPixel(hexColor, j+x, i+y);
+				}
 			}
+			w++;
 		}
+		z++;
 	}
-	cursor[0] += 8;
+	cursor[0] += SYMBOL_WIDTH*fontSize;
 }
 
 
@@ -96,19 +110,19 @@ void vdPrint(const char *buffer, int count, uint32_t hexColor){
 }
 
 void newline(){
-	cursor[1] += SYMBOL_LENGTH;
+	cursor[1] += SYMBOL_LENGTH*fontSize;
 	cursor[0] = 0;
 }
 
 void delete(){
-	int x = cursor[0] - SYMBOL_WIDTH;
+	int x = cursor[0] - SYMBOL_WIDTH*fontSize;
 	int y = cursor[1];
-	for(int i=0; i < SYMBOL_LENGTH; i++){
-		for(int j=0; j < SYMBOL_WIDTH; j++){
+	for(int i=0; i < SYMBOL_LENGTH*fontSize; i++){
+		for(int j=0; j < SYMBOL_WIDTH*fontSize; j++){
 			putPixel(0x00000000, j+x, i+y);
 		}
 	}
-	cursor[0]-=SYMBOL_WIDTH;
+	cursor[0]-=SYMBOL_WIDTH*fontSize;
 }
 
 void tab(){  //solución mala pero rápida
@@ -124,6 +138,10 @@ void vdClearScreen(){
 	}
 	cursor[0]=0;
 	cursor[1]=0;
+}
+
+void setFontSize(int newSize){
+	fontSize = newSize;
 }
 
 //Habría que pensar funciones para saber dónde está el cursor y para poder moverlo a gusto

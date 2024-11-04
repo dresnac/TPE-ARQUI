@@ -108,12 +108,12 @@ static void showCurrentTime(){
 
 //agranda la pantalla
 static void zoomIn(){
-    return;
+    zoom(1);
 }
 
 //achica la pantalla
 static void zoomOut(){
-    return;
+    zoom(-1);
 }
 
 //muestra los registros

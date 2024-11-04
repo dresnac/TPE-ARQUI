@@ -236,3 +236,15 @@ void print_regs() {
     printf("r15: %x\n", snap.r15);
     printf("rIP: %x\n", snap.rip);
 }
+
+void zoom(int n){
+    int change = 0;
+    sys_zoom(n, &change);
+    if(change){
+        sys_clear_screen();
+
+    }
+    else{
+        putChar('\n');
+    }
+}

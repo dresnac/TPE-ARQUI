@@ -4,6 +4,7 @@ GLOBAL sys_write
 GLOBAL sys_clear_screen
 GLOBAL sys_time
 GLOBAL sys_get_regs
+GLOBAL sys_zoom
 
 
 section .text
@@ -41,6 +42,12 @@ sys_clear_screen:
     mov rax, 5
     call syscall
   
+    ret
+
+sys_zoom
+    mov rax, 7
+    call syscall
+    
     ret
 
 sys_time:

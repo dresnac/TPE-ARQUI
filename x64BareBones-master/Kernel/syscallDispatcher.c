@@ -24,7 +24,7 @@ static void (*syscall_manager[])() = {
     write,
     clear_screen,
     delete,     //este llama directo a la func de video driver
-    newline,
+    change_font_size,
     time,
     regs,
     //completar
@@ -44,6 +44,10 @@ void write(pushed_registers * regs){
 
 void clear_screen(pushed_registers * regs){
     vdClearScreen();
+}
+
+void change_font_size(pushed_registers * regs){
+    *(int*)(regs->rcx) = vdChangeFontSize(regs->rbx);
 }
 
 void empty(pushed_registers * regs){

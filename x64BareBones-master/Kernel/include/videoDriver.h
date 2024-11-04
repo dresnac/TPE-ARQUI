@@ -10,4 +10,5 @@ void newline();
 void delete();
 void tab();
 void vdClearScreen();
+int vdChangeFontSize(int);
 #endif

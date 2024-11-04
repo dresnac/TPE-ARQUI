@@ -39,6 +39,7 @@ void write(pushed_registers * regs);
 void clear_screen(pushed_registers * regs);
 void time(pushed_registers * regs);
 void regs(pushed_registers * regs);
+void change_font_size(pushed_registers * regs);
 
 void syscallDispatcher(pushed_registers * regs);
 

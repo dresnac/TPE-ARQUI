@@ -13,6 +13,8 @@ uint64_t sys_clear_screen(void);
 
 uint64_t sys_time(LocalTime * time);
 
+uint64_t sys_zoom(int,int*);
+
 
 
 typedef struct {

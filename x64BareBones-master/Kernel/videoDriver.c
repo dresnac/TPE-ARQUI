@@ -39,7 +39,7 @@ struct vbe_mode_info_structure {
 	uint8_t reserved1[206];
 } __attribute__ ((packed));
 
-static int fontSize = 2;
+static int fontSize = 1;
 
 typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
@@ -140,8 +140,15 @@ void vdClearScreen(){
 	cursor[1]=0;
 }
 
-void setFontSize(int newSize){
-	fontSize = newSize;
+int vdChangeFontSize(int op){
+	if(op == -1 && fontSize == 2){
+		fontSize = 1;
+		return 1;
+	}else if(op == 1 && fontSize == 1){
+		fontSize = 2;
+		return 1;
+	}
+	return 0;
 }
 
 //Habría que pensar funciones para saber dónde está el cursor y para poder moverlo a gusto

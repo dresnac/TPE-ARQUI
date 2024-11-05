@@ -11,7 +11,7 @@ static char getKeyPressedRec(int *shiftFlag);
 static char getAscii(int scancode, int shiftOn);
 
 static uint8_t reg_shot_flag = 0;
-static char buffer[1];
+static char buffer[10000];
 static int current = 0;
 
 /* Wrapper */
@@ -120,15 +120,9 @@ void escPressed(){
 
 void updateBuffer(){
 	int shift = 0;
-	buffer[current] = getKeyPressed(&shift);
-	vdPrint(buffer, 1, 0x00FFFFFF);
+	buffer[current++] = getKeyPressed(&shift);
 }
 
 char getKeyFromBuffer(){
-	// char toRet = buffer[current];
-	// vdPrint(buffer, 1, 0x00FFFFFF);
-	// vdPrint(" - ", 3, 0x00FFFFFF);
-	// buffer[current] = 0;
-	// vdPrint(buffer, 1, 0x00FFFFFF);
-	return 'a'; //buffer[current];
+	return buffer[current-1];
 }

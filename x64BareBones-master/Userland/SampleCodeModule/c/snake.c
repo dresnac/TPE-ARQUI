@@ -40,25 +40,41 @@ int playSingle(int level){
     initSingle(matrix, &snake, &apple);
     render(matrix);
     while(getChar() != 'd');  //Hasta que no se haga avanzar la serpiente no arranca
-    // Direction dir = RIGHT;
+    Direction dir = RIGHT;
     unsigned long ticksAtStart = getTicks();  //agregar a standardlib.c
-    char pressedKey = 0;
+    char c;
     int end = 0;
     int wait = 0;
     unsigned long ticks = 0;
+    // while(1){
+    //     if((ticks = getTicks() - ticksAtStart) != 0 && ticks % (TICKS_PER_MOVEMENT/level) == 0 && !wait){
+    //         printf("3 segundos\n");
+    //         wait = 1;
+    //     }
+    //     if(ticks != 1 && ticks % (TICKS_PER_MOVEMENT/level) == 1){    //dejo pasar un tick
+    //          wait = 0;    
+    //     }
+    // }
     activateInput();
-    int i=0;
-    while(i < 5){
-        readInput(&pressedKey);
-        printf("pk = %d", pressedKey);
-        if(pressedKey != 0){
-            printf("La tecla fue: %c\n", pressedKey);
-            i++;
+    while(end != 1000){
+        // c = readInput();
+        
+        // changeDirection(&dir, c);
+        
+        if((ticks = getTicks() - ticksAtStart) != 0 && ticks % (TICKS_PER_MOVEMENT/level) == 0 && !wait){
+            end++; //updatePos(matrix, &snake, &apple);
+            // printf("La letra es: %c", c);
+            printf("joreg\n");
+            render(matrix);
+            wait = 1;
         }
-        i++;
+        if(ticks != 1 && ticks % (TICKS_PER_MOVEMENT/level) == 1){    //dejo pasar un tick
+            wait = 0;    
+        }
     }
     deactivateInput();
     while(getChar() != 'e');
+
     //activateInput();
     // while(!end){
     //     readInput(&pressedKey);
@@ -114,10 +130,25 @@ void render(BlockMatrix matrix){
 }
 
 void changeDirection(Direction * dir, char pressedKey){
-
+    switch(pressedKey){
+        case 'a': *dir = LEFT; break;
+        case 'w': *dir = UP; break;
+        case 's': *dir = DOWN; break;
+        case 'd': *dir = RIGHT; break;
+        default: break; 
+    }
 }
 
 int updatePos(BlockMatrix matrix, SnakeType * snake, Coords * apple){
     
-    return 0;
+    return 1;
+}
+
+int isMoveKey(char c, BlockType player){
+    // char letras[] = {'a', 'w', 's', 'd'};
+    if(player == SNAKE1){
+        return (c == 'a' || c == 'w' || c=='s' || c=='d');
+    }else{
+        return 0;
+    }
 }

@@ -161,7 +161,7 @@ _irq01Handler:
     mov [regs_shot + 8 * 13], r13
     mov [regs_shot + 8 * 14], r14
     mov [regs_shot + 8 * 15], r15
-    mov rax, [rsp+158]    ; posicion en el stack de la dir. de retorno (valor del rip previo al llamado de la interrupcion)
+    mov rax, [rsp+15*8]    ; posicion en el stack de la dir. de retorno (valor del rip previo al llamado de la interrupcion)
     mov [regs_shot + 8 * 16], rax
 
     mov rax, 1

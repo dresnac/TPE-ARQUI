@@ -32,11 +32,11 @@ void load_idt() {
   setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
 
 	//Solo interrupcion timer tick habilitadas
-	picMasterMask(0xFC); //FE
+	picMasterMask(0xFC);
 	picSlaveMask(0xFF);
   
         
-	_sti(); //(el diablo)
+	_sti();
 }
 
 static void setup_IDT_entry (int index, uint64_t offset) {

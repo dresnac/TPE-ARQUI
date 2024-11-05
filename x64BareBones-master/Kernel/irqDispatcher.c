@@ -27,8 +27,9 @@ void int_20() {
 void int_21(){
     //keyboardHandler(); //borrar
     if(int_21_flag){
-        updateBuffer();
+        
         vdPrint("int 21\n", 7, 0x00FFFFFF);
+        updateBuffer();
     }
 }
 

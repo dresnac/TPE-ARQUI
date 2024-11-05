@@ -162,6 +162,6 @@ void change_int21_flag(pushed_registers * regs){
 
 
 void read_from_buffer(pushed_registers * regs){
-    char * buffer = regs->rbx;
-    *buffer = getKeyFromBuffer();
+    char * key = regs->rbx;
+    *key = getKeyFromBuffer();
 }

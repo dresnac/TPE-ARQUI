@@ -47,7 +47,7 @@ sys_clear_screen:
   
     ret
 
-sys_zoom
+sys_zoom:
     mov rax, 7
     call syscall
     

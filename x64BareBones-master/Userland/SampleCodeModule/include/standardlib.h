@@ -42,6 +42,6 @@ int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, 
 unsigned long getTicks();
 void activateInput();
 void deactivateInput();
-void readInput(char * buffer);
+char readInput();
 
 #endif

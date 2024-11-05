@@ -267,6 +267,8 @@ void deactivateInput(){
     sys_input(0);
 }
 
-void readInput(char * buffer){  //queda medio feo porque solo se devuelve un caracter
-    sys_read_input(buffer);
+char readInput(){  //queda medio feo porque solo se devuelve un caracter
+    char key;
+    sys_read_input(&key);
+    return key;
 }

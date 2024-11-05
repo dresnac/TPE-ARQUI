@@ -198,9 +198,9 @@ int64_t strcmp(const char *str1, const char *str2) {
 //     return sys_put_pixel(x, y, &color);
 // }
 
-// int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color) {
-//     return sys_put_rectangle(x, y, width, height, &color);
-// }
+int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color) {
+    return sys_put_rectangle(x, y, width, height, color);
+}
 
 // int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size) {
 //     return sys_draw_letter(x, y, &letter, &color, font_size);

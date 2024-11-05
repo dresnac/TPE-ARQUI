@@ -151,5 +151,13 @@ int vdChangeFontSize(int op){
 	return 0;
 }
 
+void vdDrawRectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color){
+	for(int i=0; i < width; i++){
+		for(int j=0; j < height; j++){
+			putPixel(color, x+i, y+j);
+		}
+	}
+}
+
 //Habría que pensar funciones para saber dónde está el cursor y para poder moverlo a gusto
 //(Para escribir en distintas zonas de la pantalla)

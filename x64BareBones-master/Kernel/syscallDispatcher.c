@@ -27,6 +27,7 @@ static void (*syscall_manager[])() = {
     change_font_size,
     time,
     regs,
+    put_rectangle,
     //completar
     
 };
@@ -117,7 +118,7 @@ void regs(pushed_registers * regs){
 }
 
 
-static char * numToString(uint64_t num, uint64_t base) {
+static char * numToString(uint64_t num, uint64_t base) {  //creo que se puede borrar
     static char buffer[64];
     char * ptr = &buffer[63];
     *ptr = '\0';
@@ -130,4 +131,8 @@ static char * numToString(uint64_t num, uint64_t base) {
 
 static uint8_t bcd_decimal(uint8_t BCD) {
     return (BCD >> 4) * 10 + (BCD & 0x0F);
+}
+
+void put_rectangle(pushed_registers * regs){
+    vdDrawRectangle(regs->rbx, regs->rcx, regs->rdx, regs->r10, regs->r8);
 }

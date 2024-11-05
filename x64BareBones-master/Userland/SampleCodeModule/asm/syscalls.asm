@@ -5,6 +5,7 @@ GLOBAL sys_clear_screen
 GLOBAL sys_time
 GLOBAL sys_get_regs
 GLOBAL sys_zoom
+GLOBAL sys_put_rectangle
 
 
 section .text
@@ -61,5 +62,15 @@ sys_get_regs:
 
     mov rax, 9
     call syscall
+
+    ret
+
+sys_put_rectangle:
+
+    push r10
+    mov rax, 10
+    mov r10, rcx
+    call syscall
+    pop r10
 
     ret

@@ -35,7 +35,7 @@ void zoom(int n);
 //int64_t enter_video_mode();
 // int64_t enter_text_mode();
 // int64_t draw_pixel(uint64_t x, uint64_t y, Color color);
-// int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
+int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color);
 // int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size);
 // void print_register_snapshot();
 

@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <shell.h>
 #include <standardlib.h>
+#include <snake.h>
 
 #define PROMPT_TEXT "$:> "
 #define MAX_CHARS 110
@@ -107,7 +108,7 @@ static void showCurrentTime(){
 }
 
 //agranda la pantalla
-static void zoomIn(){
+static void zoomIn(){  //todavía no funca
     zoom(1);
 }
 
@@ -138,5 +139,10 @@ static void clear(){
 
 //juego del snake
 static void snake(){
-    return;
+    clear_screen();
+    int end = 0;
+    while(!end){
+        end = playSnake(SINGLE, 1);
+    }
+    clear_screen();
 }

@@ -11,4 +11,5 @@ void delete();
 void tab();
 void vdClearScreen();
 int vdChangeFontSize(int);
+void vdDrawRectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color);
 #endif

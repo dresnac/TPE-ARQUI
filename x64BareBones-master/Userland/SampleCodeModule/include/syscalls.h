@@ -15,7 +15,7 @@ uint64_t sys_time(LocalTime * time);
 
 uint64_t sys_zoom(int,int*);
 
-
+uint64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color);
 
 typedef struct {
     uint64_t rax;

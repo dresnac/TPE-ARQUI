@@ -60,7 +60,7 @@ char * numToString(uint64_t num, uint64_t base) {
 
 int64_t puts(const char * str) {
     int len = strlen(str);
-    char * aux;
+    char aux[len+1];
     strcopy(str, aux);
     aux[len] = '\n';
     aux[len+1] = '\0';
@@ -251,4 +251,22 @@ void zoom(int n){
 
 void adjustTime(LocalTime * currentTime){
     currentTime->horas -=3;
+}
+
+unsigned long getTicks(){
+    unsigned long ticks;
+    sys_get_ticks(&ticks);
+    return ticks;
+}
+
+void activateInput(){
+    sys_input(1);
+}
+
+void deactivateInput(){
+    sys_input(0);
+}
+
+void readInput(char * buffer){  //queda medio feo porque solo se devuelve un caracter
+    sys_read_input(buffer);
 }

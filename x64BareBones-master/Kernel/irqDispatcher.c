@@ -1,11 +1,14 @@
 #include <time.h>
 #include <keyboardDriver.h>
 #include <stdint.h>
+#include <videoDriver.h>
 
 
 
 static void int_20();
 static void int_21();
+
+static int int_21_flag = 0;
 
 static void (*irq_routines[2])() = {
     int_20,
@@ -22,7 +25,16 @@ void int_20() {
     timerHandler();
 }
 void int_21(){
-    //keyboardHandler();
+    //keyboardHandler(); //borrar
+    if(int_21_flag){
+        updateBuffer();
+        vdPrint("int 21\n", 7, 0x00FFFFFF);
+    }
+}
+
+void setInt21Flag(int flag){
+    int_21_flag = flag;
+    vdPrint("Flag actualizado\n", 17, 0x00FFFFFF);
 }
 
 // #include <time.h>

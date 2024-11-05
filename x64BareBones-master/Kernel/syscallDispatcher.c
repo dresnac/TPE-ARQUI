@@ -6,6 +6,7 @@
 #include <syscallDispatcher.h>
 #include <time.h>
 #include <rtc.h>
+#include <irqDispatcher.h>
 
 static int shiftFlag = 0;
 
@@ -30,6 +31,9 @@ static void (*syscall_manager[])() = {
     time,
     regs,
     put_rectangle,
+    get_ticks,
+    change_int21_flag,
+    read_from_buffer,
     //completar
     
 };
@@ -145,4 +149,19 @@ static uint8_t bcd_decimal(uint8_t BCD) {
 
 void put_rectangle(pushed_registers * regs){
     vdDrawRectangle(regs->rbx, regs->rcx, regs->rdx, regs->r10, regs->r8);
+}
+
+void get_ticks(pushed_registers * regs){
+    unsigned long * ticks = regs->rbx;
+    *ticks = ticksElapsed();
+}
+
+void change_int21_flag(pushed_registers * regs){
+    setInt21Flag(regs->rbx);
+}
+
+
+void read_from_buffer(pushed_registers * regs){
+    char * buffer = regs->rbx;
+    *buffer = getKeyFromBuffer();
 }

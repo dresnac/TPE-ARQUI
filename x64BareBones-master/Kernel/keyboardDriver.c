@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <videoDriver.h>
 
 //keyboardDriver.c
 #define SHIFT_PRESSED 0x2A  //42 en decimal
@@ -10,7 +11,8 @@ static char getKeyPressedRec(int *shiftFlag);
 static char getAscii(int scancode, int shiftOn);
 
 static uint8_t reg_shot_flag = 0;
-
+static char buffer[1];
+static int current = 0;
 
 /* Wrapper */
 char getKeyPressed(int *shiftFlag){
@@ -114,4 +116,19 @@ uint8_t should_take_reg_shot() {
 
 void escPressed(){
 	reg_shot_flag = 1;
+}
+
+void updateBuffer(){
+	int shift = 0;
+	buffer[current] = getKeyPressed(&shift);
+	vdPrint(buffer, 1, 0x00FFFFFF);
+}
+
+char getKeyFromBuffer(){
+	// char toRet = buffer[current];
+	// vdPrint(buffer, 1, 0x00FFFFFF);
+	// vdPrint(" - ", 3, 0x00FFFFFF);
+	// buffer[current] = 0;
+	// vdPrint(buffer, 1, 0x00FFFFFF);
+	return 'a'; //buffer[current];
 }

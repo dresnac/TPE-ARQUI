@@ -17,6 +17,12 @@ uint64_t sys_zoom(int,int*);
 
 uint64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color);
 
+uint64_t sys_get_ticks(unsigned long * ticksBuff);
+
+uint64_t sys_input(int flag);
+
+uint64_t sys_read_input(char * buffer);
+
 typedef struct {
     uint64_t rax;
     uint64_t rbx;

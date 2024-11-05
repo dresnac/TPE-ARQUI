@@ -6,7 +6,9 @@ GLOBAL sys_time
 GLOBAL sys_get_regs
 GLOBAL sys_zoom
 GLOBAL sys_put_rectangle
-
+GLOBAL sys_get_ticks
+GLOBAL sys_input
+GLOBAL sys_read_input
 
 section .text
 
@@ -73,4 +75,22 @@ sys_put_rectangle:
     call syscall
     pop r10
 
+    ret
+
+sys_get_ticks:
+
+    mov rax, 11
+    call syscall
+    ret
+
+sys_input:
+
+    mov rax, 12
+    call syscall
+    ret
+
+sys_read_input:
+
+    mov rax, 13
+    call syscall
     ret

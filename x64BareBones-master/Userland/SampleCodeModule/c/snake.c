@@ -8,10 +8,15 @@
 
 #define TICKS_PER_MOVEMENT 6
 
+typedef enum{
+    LEFT = 0, UP, DOWN, RIGHT
+}Direction;
+
 int playSingle(int level);
 void initSingle(BlockMatrix matrix, SnakeType * snake, Coords * apple);
 void fillInitialMatrix(BlockMatrix matrix);
 void render(BlockMatrix matrix);
+void changeDirection(Direction * dir, char pressedKey);
 
 
 int playSnake(GameModeType gameMode, int level){
@@ -23,6 +28,7 @@ int playSnake(GameModeType gameMode, int level){
         // case BATTLE: toRet = playBattle(level); break;
         default: return GAMEMODE_ERR;
     }
+    //deactivateInput();
     return toRet;
 }
 
@@ -33,20 +39,42 @@ int playSingle(int level){
     Coords apple;
     initSingle(matrix, &snake, &apple);
     render(matrix);
-    while(getChar() != 'd');   //Hasta que no se haga avanzar la serpiente no arranca
-    // int ticksAtStart = getTicks();  //agregar a standardlib.c
-    // char pressedKey = 0;
-    // int end = 0;
+    while(getChar() != 'd');  //Hasta que no se haga avanzar la serpiente no arranca
+    // Direction dir = RIGHT;
+    unsigned long ticksAtStart = getTicks();  //agregar a standardlib.c
+    char pressedKey = 0;
+    int end = 0;
+    int wait = 0;
+    unsigned long ticks = 0;
+    activateInput();
+    int i=0;
+    while(i < 5){
+        readInput(&pressedKey);
+        printf("pk = %d", pressedKey);
+        if(pressedKey != 0){
+            printf("La tecla fue: %c\n", pressedKey);
+            i++;
+        }
+        i++;
+    }
+    deactivateInput();
+    while(getChar() != 'e');
+    //activateInput();
     // while(!end){
     //     readInput(&pressedKey);
     //     if(pressedKey != 0){
-    //         changeDirection(pressedKey);
+    //         changeDirection(&dir, pressedKey);
     //     }
-    //     if((getTicks() - ticksAtStart) % (TICKS_PER_MOVEMENT/level) == 0){
+    //     if((ticks = getTicks() - ticksAtStart) != 0 && ticks % (TICKS_PER_MOVEMENT/level) == 0 && !wait){
     //         end = updatePos(matrix, &snake, &apple);
+    //         wait = 1;
+    //     }
+    //     if(ticks != 1 && ticks % (TICKS_PER_MOVEMENT/level) == 1){    //dejo pasar un tick
+    //          wait = 0;    
     //     }
     //     render(matrix);
     // }
+    //deactivateInput();
 
 }
 
@@ -85,7 +113,7 @@ void render(BlockMatrix matrix){
     }
 }
 
-void changeDirection(char pressedKey){
+void changeDirection(Direction * dir, char pressedKey){
 
 }
 

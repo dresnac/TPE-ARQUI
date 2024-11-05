@@ -39,5 +39,9 @@ void adjustTime(LocalTime * currentTime);
 int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color);
 // int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size);
 // void print_register_snapshot();
+unsigned long getTicks();
+void activateInput();
+void deactivateInput();
+void readInput(char * buffer);
 
 #endif

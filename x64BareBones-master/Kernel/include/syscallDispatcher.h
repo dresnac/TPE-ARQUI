@@ -45,6 +45,9 @@ void time(pushed_registers * regs);
 void regs(pushed_registers * regs);
 void change_font_size(pushed_registers * regs);
 void put_rectangle(pushed_registers * regs);
+void get_ticks(pushed_registers * regs);
+void change_int21_flag(pushed_registers * regs);
+void read_from_buffer(pushed_registers * regs);
 
 void syscallDispatcher(pushed_registers * regs);
 

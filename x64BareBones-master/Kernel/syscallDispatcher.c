@@ -4,6 +4,8 @@
 #include <keyboardDriver.h>
 #include <stddef.h>  //para size_t
 #include <syscallDispatcher.h>
+#include <time.h>
+#include <rtc.h>
 
 static int shiftFlag = 0;
 
@@ -76,15 +78,23 @@ void time(pushed_registers * regs){
     // vdPrint(horas, 2, 0x00FFFFFF);
     // vdPrint(":",1,0x00FFFFFF);
     // vdPrint(minutos, 2, 0x00FFFFFF);
-    LocalTime * time = regs->rbx;
-    // vdPrint(numToString(getHs(), 16), 2, 0x00FFFFFF); // getHs está devolviendo 0.
     
-    if(Hours()==0x00){
-        vdPrint("no", 2, 0x00FFFFFF);   //compruebo que efectivamente Hours devuelve 0
-    }
+    
+    LocalTime * time = regs->rbx;
+    
+    //if(Hours()==0x00){
+    //    vdPrint("no", 2, 0x00FFFFFF);   //compruebo que efectivamente Hours devuelve 0
+    //}
 
-    time->horas = bcd_decimal(Hours());
-    time->minutos = bcd_decimal(Mins());
+    //time->horas = bcd_decimal(Hours());
+    //time->minutos = bcd_decimal(Mins());
+
+    time->segundos = getRTCSeconds();
+    time->minutos =  getRTCMinutes();
+    time->horas =  getRTCHours();
+    time->dias = getRTCDayOfMonth();
+    time->mes = getRTCMonth();
+    time->anio = getRTCYear();
 }
 
 void regs(pushed_registers * regs){

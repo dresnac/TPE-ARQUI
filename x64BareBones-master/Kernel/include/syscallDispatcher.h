@@ -25,8 +25,12 @@ typedef struct {
 
 
 typedef struct {
-    int horas;
+    int segundos;
     int minutos;
+    int horas;
+    int dias;
+    int mes;
+    int anio;
 }LocalTime;
 
 typedef struct {

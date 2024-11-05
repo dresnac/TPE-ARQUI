@@ -248,3 +248,7 @@ void zoom(int n){
         putChar('\n');
     }
 }
+
+void adjustTime(LocalTime * currentTime){
+    currentTime->horas -=3;
+}

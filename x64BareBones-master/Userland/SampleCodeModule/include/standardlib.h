@@ -32,6 +32,7 @@ char* gets(char* buffer, int n);
 int64_t strcmp(const char *str1, const char *str2);
 void print_regs();
 void zoom(int n);
+void adjustTime(LocalTime * currentTime);
 //int64_t enter_video_mode();
 // int64_t enter_text_mode();
 // int64_t draw_pixel(uint64_t x, uint64_t y, Color color);

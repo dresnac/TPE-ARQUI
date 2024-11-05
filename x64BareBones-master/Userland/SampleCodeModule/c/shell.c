@@ -6,6 +6,8 @@
 #define PROMPT_TEXT "$:> "
 #define MAX_CHARS 110
 #define MSG_BUFFER_FULL "\nCuidado: Buffer de comandos lleno\n"
+#define MORNING "de la maniana"
+#define AFTERNOON "de la tarde"
 
 static void interpret(char * buffer);
 static void help();
@@ -102,9 +104,12 @@ static void help(){
 //muestra la hora actual
 static void showCurrentTime(){
     LocalTime currentTime;
-    time(&currentTime);  //completa el struct con la hora actual
-    printf("\nLa hora es %d:%d", currentTime.horas, currentTime.minutos);
-    putChar('\n');
+    time(&currentTime);  
+    adjustTime(&currentTime);
+    printf("\nSon las %d:%d con %d segundos %s del dia %d/%d/%d\n",
+    currentTime.horas, currentTime.minutos, currentTime.segundos,
+    (currentTime.horas >= 12) ? AFTERNOON:MORNING,
+    currentTime.dias, currentTime.mes, currentTime.anio );
 }
 
 //agranda la pantalla

@@ -85,18 +85,6 @@ sys_get_ticks:
     call syscall
     ret
 
-sys_input:
-
-    mov rax, 12
-    call syscall
-    ret
-
-sys_read_input:
-
-    mov rax, 13
-    call syscall
-    ret
-
 sys_beep:
     mov rax, 14
     call syscall

@@ -74,37 +74,6 @@ hlt:
 	hlt
 	ret
 
-;lo de aca abajo no lo estamos usando
-;inc
-Hours:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, 0
-	mov al, 0x04
-	out 70h, al
-	in ax, 71h
-
-	mov rsp, rbp
-	pop rbp
-
-	ret
-
-Mins:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, 0
-	mov al, 0x02
-	out 70h, al
-	in ax, 71h
-
-	mov rsp, rbp
-	pop rbp
-
-	ret
-
-
 getKey:
     mov rax, 0
 .cicle: 

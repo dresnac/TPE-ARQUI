@@ -19,7 +19,6 @@ char getChar();
 void putChar(char c);
 void beep(uint64_t frequency, uint64_t duration);
 int64_t clear_screen();
-// int64_t setFontSize(uint64_t size);
 uint64_t strlen(const char *str);
 void strcopy(const char * s, char * t);
 char * numToString(uint64_t num, uint64_t base);
@@ -33,15 +32,8 @@ int64_t strcmp(const char *str1, const char *str2);
 void print_regs();
 void zoom(int n);
 void adjustTime(LocalTime * time);
-//int64_t enter_video_mode();
-// int64_t enter_text_mode();
-// int64_t draw_pixel(uint64_t x, uint64_t y, Color color);
 int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color);
-// int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size);
-// void print_register_snapshot();
 unsigned long getTicks();
-void activateInput();
-void deactivateInput();
 char readInput();
 
 #endif

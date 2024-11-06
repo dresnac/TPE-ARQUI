@@ -4,6 +4,8 @@
 #include <snake.h>
 #include <exceptions.h>
 
+
+
 #define PROMPT_TEXT "$:> "
 #define MAX_CHARS 110
 #define MSG_BUFFER_FULL "\nCuidado: Buffer de comandos lleno\n"
@@ -110,7 +112,6 @@ static void showCurrentTime(){
     (currentTime.horas >= 12) ? AFTERNOON:MORNING,
     currentTime.dias, currentTime.mes, currentTime.anio );
 }
-
 
 
 //agranda la pantalla

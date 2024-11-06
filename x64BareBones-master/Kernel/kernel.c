@@ -1,17 +1,8 @@
 #include <stdint.h>
 #include <string.h>
-#include <lib.h>
 #include <moduleLoader.h>
-#include <naiveConsole.h>
-#include <videoDriver.h>
-#include <keyboardDriver.h>
 #include <idtLoader.h>
-#include <syscallDispatcher.h>
 
-extern void _irq80Handler();
-extern void pruebaSysDispatcher();
-
-#define PROMPT_TEXT "User@Kernel:$> "
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -46,47 +37,15 @@ void * getStackBase()
 void * initializeKernelBinary()
 {
 	char buffer[10];
-
-	ncPrint("[x64BareBones]");
-	ncNewline();
-
-	ncPrint("CPU Vendor:");
-	ncPrint(cpuVendor(buffer));
-	ncNewline();
-
-	ncPrint("[Loading modules]");
-	ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
-
-	ncPrint("[Initializing kernel's binary]");
-	ncNewline();
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
-	ncPrint("  text: 0x");
-	ncPrintHex((uint64_t)&text);
-	ncNewline();
-	ncPrint("  rodata: 0x");
-	ncPrintHex((uint64_t)&rodata);
-	ncNewline();
-	ncPrint("  data: 0x");
-	ncPrintHex((uint64_t)&data);
-	ncNewline();
-	ncPrint("  bss: 0x");
-	ncPrintHex((uint64_t)&bss);
-	ncNewline();
-
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
 	return getStackBase();
 }
 
@@ -94,52 +53,6 @@ void * initializeKernelBinary()
 int main()
 {	
 	load_idt();
-	
-	//putPixel(0xFFFFFF, 20, 20);
-
-	//pruebaSysDispatcher();
-	//_irq80Handler();
 	((EntryPoint)sampleCodeModuleAddress)();
-	//hay que seguir esta logica pero probablemente del lado del userland
-	//eliminar los while(1)
-	//por ahora lo unico que hace es escribir y borrar
-	// int cursor[] ={0,0};
-	// while(1){
-	// 	print(PROMPT_TEXT, cursor);
-	// 	int *shiftFlag;
-	// 	*shiftFlag = 0;
-	// 	while(1){
-	// 		char c = getKeyPressed(shiftFlag);
-
-	// 		if(c == '\n')
-	// 		{
-	// 			delete(cursor);
-	// 			newline(cursor);
-	// 			print(PROMPT_TEXT, cursor);
-	// 		}
-	// 		else if(c==8){
-	// 			delete(cursor);		//borra la barra
-	// 			delete(cursor);		//borra el señalador
-	// 			drawChar('_',cursor);
-	// 		}
-	// 		else{
-	// 			delete(cursor);
-	// 			drawChar(c, cursor);
-	// 			drawChar('_',cursor);
-	// 		}
-			
-	// 	}
-	// }
-
-	//putPixel(0x00FF0000, 20, 20);
-	//int cursor[] = {0,0};
-	//print("User@Kernel:$~",cursor);
-	//newline(cursor);
-	//print("User@Kernel:$~",cursor);
-
-	//while(1){
-	//	  drawChar(getKeyPressed(), cursor[0], cursor[1]);
-	//	  cursor[0] += 8;
-	//}
 	return 0;
 }

@@ -1,9 +1,6 @@
 #include <stdint.h>
 #include <keyboardDriver.h>
 
-//Tabla de SCANCODES:
-//https://stanislavs.org/helppc/make_codes.html
-
 const uint16_t pressedKeyShiftMap[][2] = {
         {00, 00},               // El scanCode empieza en 0x01, lo pongo para poder entrar directamente en lo que me dan.
         {0x1B, 0x1B},           // Escape key

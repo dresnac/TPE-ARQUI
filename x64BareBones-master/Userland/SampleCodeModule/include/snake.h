@@ -22,7 +22,7 @@ typedef struct{
 
 
 typedef enum{
-    SINGLE = 1, MULTIPLAYER = 2, BATTLE = 3
+    SINGLE = 1, MULTIPLAYER = 2
 }GameModeType;
 
 typedef enum{

@@ -1,11 +1,7 @@
 #include <standardlib.h>
-//ver bien que devuelve cada función (en particular, cada syscall)
 
 
 char getChar(){
-    // uint16_t c;
-    // while( sys_read(STDIN, &c, 1) == 0 || c > 255 );
-    // return (char) c;
     char c;
     int flag = 0;
     while(flag == 0 || c > 255){
@@ -33,11 +29,6 @@ int64_t clear_screen() {
 }
 
 
-// int64_t setFontSize(uint64_t size) {
-//     return sys_set_font_size(size);
-// }
-
-
 uint64_t strlen(const char *str) {
     const char *s = str;
     while (*s)
@@ -45,7 +36,7 @@ uint64_t strlen(const char *str) {
     return s - str;
 }
 
-void strcopy(const char * s, char * t){ //chequear si strcopy era así
+void strcopy(const char * s, char * t){ 
     while(*s){
         *t = *s;
         s++;
@@ -78,7 +69,6 @@ int64_t puts(const char * str) {
 
 
 int64_t fputc(char c, FileDescriptor fd) {
-    // return sys_write(fd, &c, 1) == -1 ? -1 : 0;  //nunca devuelve -1, ver si pasamos todo a que sea void
     return sys_write(fd, &c, 1);   //retorna basura
 }
 
@@ -190,31 +180,9 @@ int64_t strcmp(const char *str1, const char *str2) {
     return *(unsigned char *)str1 - *(unsigned char *)str2;
 }
 
-
-/* A partir de acá analizar si las necesitamos o no, ojo que al descomentar hay que agregar/implementar las syscalls */
-
-
-// int64_t enter_video_mode() {
-//     return sys_set_mode(VIDEO_MODE);
-// }
-
-// int64_t enter_text_mode() {
-//     return sys_set_mode(TEXT_MODE);
-// }
-
-
-// int64_t draw_pixel(uint64_t x, uint64_t y, Color color) {
-//     return sys_put_pixel(x, y, &color);
-// }
-
 int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint64_t color) {
     return sys_put_rectangle(x, y, width, height, color);
 }
-
-// int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size) {
-//     return sys_draw_letter(x, y, &letter, &color, font_size);
-//     // int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize)
-// }
 
 
 void print_regs() {
@@ -289,12 +257,4 @@ unsigned long getTicks(){
     unsigned long ticks;
     sys_get_ticks(&ticks);
     return ticks;
-}
-
-void activateInput(){
-    sys_input(1);
-}
-
-void deactivateInput(){
-    sys_input(0);
 }

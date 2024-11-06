@@ -32,8 +32,8 @@ static void (*syscall_manager[])() = {
     regs,
     put_rectangle,
     get_ticks,
-    change_int21_flag,
-    read_from_buffer,
+    empty,
+    empty,
     do_beep,
     //completar
     
@@ -150,16 +150,6 @@ void put_rectangle(pushed_registers * regs){
 void get_ticks(pushed_registers * regs){
     unsigned long * ticks = regs->rbx;
     *ticks = ticksElapsed();
-}
-
-void change_int21_flag(pushed_registers * regs){ //borrar
-    setInt21Flag(regs->rbx);
-}
-
-
-void read_from_buffer(pushed_registers * regs){ //borrar
-    char * key = regs->rbx;
-    // *key = getKeyFromBuffer();
 }
 
 void do_beep(pushed_registers * regs){

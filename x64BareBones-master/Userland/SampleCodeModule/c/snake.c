@@ -1,6 +1,5 @@
 #include <snake.h>
 
-
 #define SINGLE_START_X  5
 #define SINGLE_START_Y (SIDE/2)
 #define PLAYER1_START_X 5
@@ -30,14 +29,11 @@ void food(BlockMatrix matrix, Coords * apple);
 
 int playSnake(GameModeType gameMode, int level){
     int toRet = 0;
-    //activateInput();  //agregar en standardlib.c, llama a una nueva syscall sys_input_on
     switch(gameMode){
         case SINGLE: toRet = playSingle(level); break;
         case MULTIPLAYER: toRet = playMultiplayer(level); break;
-        // case BATTLE: toRet = playBattle(level); break;
         default: return GAMEMODE_ERR;
     }
-    //deactivateInput();
     return toRet;
 }
 
@@ -53,7 +49,7 @@ int playSingle(int level){
     render(matrix);
     while(getChar() != 'd');  //Hasta que no se haga avanzar la serpiente no arranca
     Direction dir = RIGHT;
-    unsigned long ticksAtStart = getTicks();  //agregar a standardlib.c
+    unsigned long ticksAtStart = getTicks(); 
     char c;
     char aux;
     int end = 0;
@@ -198,7 +194,7 @@ void collision(){
 unsigned int seed = 12345;  // Semilla inicial
 
 unsigned int lcg_random() {
-    seed = (1103515245 * seed + 12345) % (1 << 31);  // m = 2^31
+    seed = (1103515245 * seed + seed) % (1 << 31);  // m = 2^31
     return seed;
 }
 

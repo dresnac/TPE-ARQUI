@@ -187,13 +187,12 @@ void food(BlockMatrix matrix, Coords * apple){
     if(singleGameMode){
         addPoints();
     } 
-    beep(100, 5);
+    beep(300, 1);
 }
 
 void collision(){
     puts("\nGAMEOVER");
     beep(100, 5);
-    beep(50, 5);
 }
 
 unsigned int seed = 12345;  // Semilla inicial

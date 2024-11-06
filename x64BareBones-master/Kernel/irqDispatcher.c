@@ -25,12 +25,12 @@ void int_20() {
     timerHandler();
 }
 void int_21(){
-    //keyboardHandler(); //borrar
-    if(int_21_flag){
+    keyboardHandler(); //borrar
+    // if(int_21_flag){
         
-        vdPrint("int 21\n", 7, 0x00FFFFFF);
-        updateBuffer();
-    }
+    //     vdPrint("int 21\n", 7, 0x00FFFFFF);
+    //     updateBuffer();
+    // }
 }
 
 void setInt21Flag(int flag){

@@ -9,6 +9,7 @@ GLOBAL sys_put_rectangle
 GLOBAL sys_get_ticks
 GLOBAL sys_input
 GLOBAL sys_read_input
+GLOBAL sys_beep
 
 section .text
 
@@ -28,6 +29,7 @@ syscall:
 
 sys_read:
     mov rax, 3
+    mov r10, rcx
     call syscall
 
     ret
@@ -92,5 +94,10 @@ sys_input:
 sys_read_input:
 
     mov rax, 13
+    call syscall
+    ret
+
+sys_beep:
+    mov rax, 14
     call syscall
     ret

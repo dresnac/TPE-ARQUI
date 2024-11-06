@@ -34,6 +34,7 @@ static void (*syscall_manager[])() = {
     get_ticks,
     change_int21_flag,
     read_from_buffer,
+    do_beep,
     //completar
     
 };
@@ -62,37 +63,32 @@ void empty(pushed_registers * regs){
 }
 
 void read(pushed_registers * regs){  //el FileDescriptor no sirve de mucho supongo
-    char * aux = (char*) regs->rcx;
-    for(int i=0; i < regs->rdx; i++){
-        aux[i] = getKeyPressed(&shiftFlag);
-        if(aux[i]==27){
-            escPressed();
-        }
+    uint64_t i = 0;
+    char * buffer = (char*) regs->rcx;
+    int amount = (int) regs->rdx;
+    int * flag = regs->r10;
+    while(i < amount && bufferHasNext()){
+        buffer[i] = getCurrent();
+        i++;
+        *flag = 1;
     }
-    return;
 }
 
+uint64_t read_with_params(uint64_t fd, uint16_t * buffer, uint64_t amount){
+    uint64_t i = 0;
+
+    while(i < amount && bufferHasNext()){
+        buffer[i] = getCurrent();
+        i++;
+    }
+    return i;
+}
+
+
 void time(pushed_registers * regs){
-    // char *horas;
-    // char *minutos;
-    // char *time;
-    // horas=numToString(getHs(),16);
-    // minutos=numToString(getMin(),16);
-    // newline();
-    // vdPrint(horas, 2, 0x00FFFFFF);
-    // vdPrint(":",1,0x00FFFFFF);
-    // vdPrint(minutos, 2, 0x00FFFFFF);
-    
     
     LocalTime * time = regs->rbx;
     
-    //if(Hours()==0x00){
-    //    vdPrint("no", 2, 0x00FFFFFF);   //compruebo que efectivamente Hours devuelve 0
-    //}
-
-    //time->horas = bcd_decimal(Hours());
-    //time->minutos = bcd_decimal(Mins());
-
     time->segundos = getRTCSeconds();
     time->minutos =  getRTCMinutes();
     time->horas =  getRTCHours();
@@ -156,12 +152,16 @@ void get_ticks(pushed_registers * regs){
     *ticks = ticksElapsed();
 }
 
-void change_int21_flag(pushed_registers * regs){
+void change_int21_flag(pushed_registers * regs){ //borrar
     setInt21Flag(regs->rbx);
 }
 
 
-void read_from_buffer(pushed_registers * regs){
+void read_from_buffer(pushed_registers * regs){ //borrar
     char * key = regs->rbx;
-    *key = getKeyFromBuffer();
+    // *key = getKeyFromBuffer();
+}
+
+void do_beep(pushed_registers * regs){
+    beep(regs->rbx, regs->rcx);
 }

@@ -12,6 +12,7 @@
 #define MATRIX_START_Y 80
 #define BLOCK_SIDE 20
 
+#define WINNER 10
 #define GAMEMODE_ERR 5
 
 typedef struct{

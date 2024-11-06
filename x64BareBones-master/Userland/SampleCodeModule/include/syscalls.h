@@ -5,7 +5,7 @@
 #include <localtime.h>
 
 /*Hace falta el "extern"?*/
-uint64_t sys_read(uint64_t fd, char * buffer, uint64_t count);
+uint64_t sys_read(uint64_t fd, char * buffer, uint64_t count, int * flag);
 
 uint64_t sys_write(uint64_t fd, const char * buffer, uint64_t count);
 
@@ -22,6 +22,8 @@ uint64_t sys_get_ticks(unsigned long * ticksBuff);
 uint64_t sys_input(int flag);
 
 uint64_t sys_read_input(char * buffer);
+
+uint64_t sys_beep(uint64_t frequency, uint64_t duration);
 
 typedef struct {
     uint64_t rax;

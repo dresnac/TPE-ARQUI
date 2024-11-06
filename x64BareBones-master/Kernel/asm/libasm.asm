@@ -2,6 +2,8 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL rtc
 GLOBAL hlt
+GLOBAL inb
+GLOBAL outb
 
 GLOBAL Hours
 GLOBAL Mins
@@ -39,6 +41,29 @@ rtc:
 	mov al, dil
 	out 70h, al
 	in al, 71h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+inb:
+	push rbp
+    mov rbp, rsp
+
+	mov rdx, rdi
+	in al, dx
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+outb:
+	push rbp
+    mov rbp, rsp
+
+ 	mov rax, rsi
+	mov rdx, rdi
+	out dx, al
 
 	mov rsp, rbp
 	pop rbp

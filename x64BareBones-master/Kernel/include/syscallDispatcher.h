@@ -39,6 +39,7 @@ typedef struct {
 
 void empty(pushed_registers * regs);
 void read(pushed_registers * regs);
+uint64_t read_with_params(uint64_t fd, uint16_t * buffer, uint64_t amount);
 void write(pushed_registers * regs);
 void clear_screen(pushed_registers * regs);
 void time(pushed_registers * regs);
@@ -48,6 +49,7 @@ void put_rectangle(pushed_registers * regs);
 void get_ticks(pushed_registers * regs);
 void change_int21_flag(pushed_registers * regs);
 void read_from_buffer(pushed_registers * regs);
+void do_beep(pushed_registers * regs);
 
 void syscallDispatcher(pushed_registers * regs);
 

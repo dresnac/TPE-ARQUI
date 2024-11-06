@@ -17,7 +17,7 @@ typedef enum
 
 char getChar();
 void putChar(char c);
-// int64_t beep(uint64_t frequency, uint64_t duration);
+void beep(uint64_t frequency, uint64_t duration);
 int64_t clear_screen();
 // int64_t setFontSize(uint64_t size);
 uint64_t strlen(const char *str);
@@ -32,7 +32,7 @@ char* gets(char* buffer, int n);
 int64_t strcmp(const char *str1, const char *str2);
 void print_regs();
 void zoom(int n);
-void adjustTime(LocalTime * currentTime);
+void adjustTime(LocalTime * time);
 //int64_t enter_video_mode();
 // int64_t enter_text_mode();
 // int64_t draw_pixel(uint64_t x, uint64_t y, Color color);

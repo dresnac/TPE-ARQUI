@@ -2,6 +2,7 @@
 #include <shell.h>
 #include <standardlib.h>
 #include <snake.h>
+#include <exceptions.h>
 
 #define PROMPT_TEXT "$:> "
 #define MAX_CHARS 110
@@ -15,8 +16,6 @@ static void showCurrentTime();
 static void zoomIn();
 static void zoomOut();
 static void getRegs();
-static void div0();
-static void opCode();
 static void clear();
 static void snake();
 
@@ -95,7 +94,7 @@ static void help(){
     printf("\tzoomin\n");
     printf("\tzoomout\n");
     printf("\tgetregs\n");
-    printf("\tdevidebyzero\n");
+    printf("\tdividebyzero\n");
     printf("\topcode\n");
     printf("\tclear\n");
     printf("\tsnake\n");
@@ -112,6 +111,8 @@ static void showCurrentTime(){
     currentTime.dias, currentTime.mes, currentTime.anio );
 }
 
+
+
 //agranda la pantalla
 static void zoomIn(){  //todavía no funca
     zoom(1);
@@ -127,16 +128,6 @@ static void getRegs(){
     print_regs();
 }
 
-//divide por cero hace saltar la excepcion
-static void div0(){
-    return;
-}
-
-//(?)
-static void opCode(){
-    return;
-}
-
 //borra toda la pantalla y solo deja el primer prompt
 static void clear(){
     clear_screen();
@@ -144,10 +135,20 @@ static void clear(){
 
 //juego del snake
 static void snake(){
-    clear_screen();
+    char gameMode;
+    char level;
+    puts("\nElegir modo de juego (1. SINGLE / 2. MULTIPLAYER)");
+    printf("Ingresar numero: ");
+    gameMode = getChar();
+    putChar(gameMode);
+    puts("\nElegir nivel de dificultad (1.EASY / 2.MEDIUM / 3.HARD)");
+    printf("Ingresar numero: "); 
+    level = getChar();
+    putChar(level);
     int end = 0;
+    clear_screen();
     while(!end){
-        end = playSnake(SINGLE, 1);
+        end = playSnake((gameMode - '0'), (level - '0'));
     }
     clear_screen();
 }

@@ -16,14 +16,17 @@ GLOBAL _irq05Handler
 GLOBAL _irq80Handler
 
 GLOBAL _exception0Handler
+GLOBAL _exception6Handler
 
 GLOBAL regs_shot
+GLOBAL exception_regs
 GLOBAL regs_shot_available
 
 EXTERN should_take_reg_shot
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
+EXTERN getStackBase
 
 SECTION .text
 
@@ -200,11 +203,57 @@ _irq80Handler:
 	popState
 	iretq
 
-	
+
+%macro exceptionHandler 1
+    cli
+	pushState
+	mov [exception_regs + 8*0 ], rax
+	mov [exception_regs + 8*1 ], rbx
+	mov [exception_regs + 8*2 ], rcx
+	mov [exception_regs + 8*3 ], rdx
+	mov [exception_regs + 8*4 ], rsi
+	mov [exception_regs + 8*5 ], rdi
+	mov [exception_regs + 8*6 ], rbp
+	; mov rax, rsp
+    ; add rax, 16 * 8                     ; RSP del contexto anterior
+    mov rax, [rsp + 18 * 8]
+	mov [exception_regs + 8*7 ], rax	;
+	mov [exception_regs + 8*8 ], r8
+	mov [exception_regs + 8*9 ], r9
+	mov [exception_regs + 8*10], r10
+	mov [exception_regs + 8*11], r11
+	mov [exception_regs + 8*12], r12
+	mov [exception_regs + 8*13], r13
+	mov [exception_regs + 8*14], r14
+	mov [exception_regs + 8*15], r15
+	mov rax, [rsp+15*8]                     ;RIP del contexto anterior
+	mov [exception_regs + 8*16], rax
+	mov rax, [rsp+17*8]                     ; RFLAGS
+	mov [exception_regs + 8*17], rax
+
+	mov rdi, %1                             ; Parametros para exceptionDispatcher
+	mov rsi, exception_regs
+
+	call exceptionDispatcher
+
+	popState
+    call getStackBase
+	mov [rsp+24], rax ; El StackBase
+    mov rax, userland
+    mov [rsp], rax ; PISO la dirección de retorno
+
+    sti
+    iretq
+%endmacro
 
 ;Zero Division Exception
 _exception0Handler:
 	exceptionHandler 0
+
+;Invalid operation code exception
+_exception6Handler:
+	exceptionHandler 6
+	
 
 haltcpu:
 	cli
@@ -216,10 +265,10 @@ haltcpu:
 SECTION .bss
 	aux resq 1
 
-section .rodata
-	buffer db "Jorge"
-section .data
+SECTION .data
  	regs_shot dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 17 zeros
 	regs_shot_available dq 0 ; flag para saber si hay un regs_shot disponible
     exception_regs dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 18 zeros
 
+SECTION .rodata
+	userland equ 0x400000

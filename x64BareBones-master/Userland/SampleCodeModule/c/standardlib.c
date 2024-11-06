@@ -7,7 +7,16 @@ char getChar(){
     // while( sys_read(STDIN, &c, 1) == 0 || c > 255 );
     // return (char) c;
     char c;
-    sys_read(STDIN, &c, 1);
+    int flag = 0;
+    while(flag == 0 || c > 255){
+        sys_read(STDIN, &c, 1, &flag);
+    }
+    return c;
+}
+
+char readInput(int * flag){
+    char c;
+    sys_read(STDIN, &c, 1, flag);
     return c;
 }
 
@@ -15,9 +24,9 @@ void putChar(char c) {
     sys_write(STDOUT, &c, 1);
 }
 
-// int64_t beep(uint64_t frequency, uint64_t duration) {
-//     return sys_beep(frequency, duration);
-// }  PROXIMAMENTE
+void beep(uint64_t frequency, uint64_t duration) {
+    sys_beep(frequency, duration);
+}
 
 int64_t clear_screen() {
     return sys_clear_screen();
@@ -213,7 +222,7 @@ void print_regs() {
     int flag = -1;
     sys_get_regs(&snap, &flag);
     if(flag == -1) {
-        fprintf(STDERR, "\nNo register snapshot available. Press ESC to take a snapshot.\n");
+        fprintf(STDERR, "\nNo register snapshot available. Press F1 to take a snapshot.\n");
         return;
     }
 
@@ -249,10 +258,33 @@ void zoom(int n){
     }
 }
 
-void adjustTime(LocalTime * currentTime){
-    currentTime->horas -=3;
-}
+void adjustTime(LocalTime * time) {
 
+    if (time->horas < 3) {
+        time->horas += 21;
+        time->dias--;
+        if (time->dias == 0) {
+            time->mes--;
+            if (time->mes == 0) {
+                time->mes = 12;
+                time->anio--;
+            }
+            if(time->mes == 2){
+                time->dias = 28;
+                if(time->anio % 4 == 0){
+                    time->dias = 29;
+                }
+            } else if(time->mes == 4 || time->mes == 6 || time->mes == 9 || time->mes == 11){
+                time->dias = 30;
+            } else {
+                time->dias = 31;
+            }
+        }
+    }
+    else{
+        time->horas = time->horas - 3;
+    }
+}
 unsigned long getTicks(){
     unsigned long ticks;
     sys_get_ticks(&ticks);
@@ -265,10 +297,4 @@ void activateInput(){
 
 void deactivateInput(){
     sys_input(0);
-}
-
-char readInput(){  //queda medio feo porque solo se devuelve un caracter
-    char key;
-    sys_read_input(&key);
-    return key;
 }
